@@ -395,6 +395,113 @@ const ART = (() => {
       ${sunflower(24, 344, .7)}${redFlower(778, 346, .7)}`);
   };
 
+  /* La carretera de noche: los dos mirando hacia adelante */
+  scenes.carretera = () => {
+    const [g, d] = skyGrad('#060A16', '#17223C');
+    const luz = id('luz'), halo = id('halo');
+
+    let estrellas = '';
+    for (let i = 0; i < 70; i++) estrellas += star(rnd(10, 790), rnd(8, 190), rnd(.5, 1.4), rnd(.35, 1));
+    // un corazón dibujado con estrellas, arriba a la derecha
+    const cz = [[0,-6],[-7,-11],[-12,-5],[-6,3],[0,9],[6,3],[12,-5],[7,-11]];
+    estrellas += cz.map(([a, b]) => star(636 + a * 2.1, 78 + b * 2.1, 1.25, .95)).join('');
+
+    // postes del guardarraíl, cada vez más chiquitos hacia el fondo
+    let postes = '';
+    for (let i = 0; i < 9; i++) {
+      const t = i / 8, py = 456 - t * 224, ph = 34 - t * 28;
+      const sep = 350 - t * 322;
+      [400 - sep, 400 + sep].forEach((px) => {
+        postes += `<rect x="${px - 3 + t * 1.5}" y="${py - ph}" width="${6 - t * 4}" height="${ph}"
+          rx="2" fill="#D8D2C4" opacity="${(0.9 - t * 0.6).toFixed(2)}"/>`;
+      });
+    }
+
+    // líneas discontinuas del centro
+    let lineas = '';
+    for (let i = 0; i < 7; i++) {
+      const t = i / 6, ly = 452 - t * 226, lh = 26 - t * 23, lw = 11 - t * 9.4;
+      lineas += `<rect x="${400 - lw / 2}" y="${ly - lh}" width="${lw}" height="${lh}" rx="2"
+        fill="#F2E7C8" opacity="${(0.8 - t * 0.55).toFixed(2)}"/>`;
+    }
+
+    return frame(`${d}
+      <linearGradient id="${luz}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#FFF3C4" stop-opacity="0"/>
+        <stop offset="45%" stop-color="#FFF3C4" stop-opacity=".16"/>
+        <stop offset="100%" stop-color="#FFF6D4" stop-opacity=".42"/>
+      </linearGradient>
+      <radialGradient id="${halo}"><stop offset="0%" stop-color="#FFF6D4" stop-opacity=".55"/>
+        <stop offset="100%" stop-color="#FFF6D4" stop-opacity="0"/></radialGradient>`, `
+      <rect width="800" height="460" fill="url(#${g})"/>
+      ${estrellas}
+      <path d="M16,24 a26,26 0 1 0 22,30 a21,21 0 1 1 -22,-30 z" fill="#F4EDD2" opacity=".5"
+        transform="translate(96,34)"/>
+
+      <!-- montañas, apenas insinuadas -->
+      <path d="M-40,214 L110,120 L220,192 L330,104 L440,190 L560,116 L700,196 L860,132 L860,300 L-40,300 Z" fill="#111828"/>
+      <path d="M-40,238 L130,168 L280,232 L420,160 L560,230 L700,172 L860,236 L860,320 L-40,320 Z" fill="#0C1120"/>
+
+      <!-- la carretera -->
+      <path d="M400,206 L742,460 L58,460 Z" fill="#20222C"/>
+      <path d="M400,206 L420,206 L742,460 L700,460 Z" fill="#171922" opacity=".6"/>
+      <path d="M400,206 L742,460 M400,206 L58,460" stroke="#E8DFC6" stroke-width="3" opacity=".25"/>
+
+      <!-- los conos de luz -->
+      <g>
+        <polygon points="386,226 396,226 452,460 96,460" fill="url(#${luz})"/>
+        <polygon points="404,226 414,226 704,460 348,460" fill="url(#${luz})"/>
+      </g>
+      ${lineas}
+      ${postes}
+
+      <!-- lo que alcanza a iluminarse del borde -->
+      <g opacity=".8">${sunflower(112, 452, .62)}</g>
+      <g opacity=".7">${redFlower(690, 456, .6)}</g>
+
+      <!-- el carro, visto desde atrás -->
+      <ellipse cx="400" cy="424" rx="150" ry="22" fill="#000" opacity=".45"/>
+      <ellipse cx="292" cy="404" rx="52" ry="34" fill="url(#${halo})"/>
+      <ellipse cx="508" cy="404" rx="52" ry="34" fill="url(#${halo})"/>
+
+      <g>
+        <rect x="286" y="392" width="34" height="30" rx="8" fill="#15161C"/>
+        <rect x="480" y="392" width="34" height="30" rx="8" fill="#15161C"/>
+        <path d="M306,306 L494,306 L512,350 L288,350 Z" fill="#EDEAE3"/>
+        <path d="M318,312 L482,312 L496,346 L304,346 Z" fill="#2B3446"/>
+        <rect x="282" y="344" width="236" height="64" rx="16" fill="#F4F2EC"/>
+        <rect x="282" y="344" width="236" height="18" rx="9" fill="#FFFFFF" opacity=".7"/>
+        <rect x="292" y="396" width="216" height="16" rx="8" fill="#DCD8CE"/>
+        <rect x="368" y="398" width="64" height="12" rx="3" fill="#C9C4B8"/>
+
+        <!-- ellos dos, de espaldas, mirando la carretera -->
+        <g fill="#0E1119">
+          <path d="M352,346 C352,330 366,322 378,326 C388,330 390,340 388,346 Z"/>
+          <path d="M356,328 C350,316 356,310 362,318 Z"/>
+          <path d="M376,324 C378,312 386,312 384,324 Z"/>
+          <circle cx="379" cy="316" r="7"/>
+          <path d="M418,346 C418,332 430,324 442,328 C451,332 452,341 450,346 Z"/>
+          <path d="M422,330 C416,318 422,312 428,320 Z"/>
+          <path d="M441,326 C443,314 451,314 449,326 Z"/>
+        </g>
+        <g transform="translate(447,322) rotate(12)">
+          <path d="M0,0 C-8,-7 -13,-1 -7,3 C-4,5 -1,3 0,0 Z" fill="#C4566F"/>
+          <path d="M0,0 C8,-7 13,-1 7,3 C4,5 1,3 0,0 Z" fill="#D06A82"/>
+          <circle r="2.4" fill="#B3465E"/>
+        </g>
+
+        <!-- luces traseras -->
+        <rect x="292" y="360" width="46" height="15" rx="7" fill="#E5342F"/>
+        <rect x="462" y="360" width="46" height="15" rx="7" fill="#E5342F"/>
+        <rect x="292" y="360" width="46" height="6" rx="3" fill="#FF8A80" opacity=".85"/>
+        <rect x="462" y="360" width="46" height="6" rx="3" fill="#FF8A80" opacity=".85"/>
+        <ellipse cx="315" cy="367" rx="40" ry="18" fill="#E5342F" opacity=".22"/>
+        <ellipse cx="485" cy="367" rx="40" ry="18" fill="#E5342F" opacity=".22"/>
+      </g>
+
+      ${heart(400, 172, 1.7, '#D0455A', .35)}`);
+  };
+
   /* 05 — Zoológico */
   scenes.zoo = () => {
     const [g, d] = skyGrad('#CFEAF6', '#F3F6E4');

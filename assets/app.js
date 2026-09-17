@@ -39,6 +39,9 @@ const CAPITULOS = [
   { escena:'termales', titulo:'Papallacta',
     texto:'Agua caliente, vapor subiendo y las montañas alrededor. Ahí mismo, los masajes y los silencios buenos. Descubrimos que en esa poza el mundo se queda afuera.' },
 
+  { escena:'carretera', titulo:'La carretera',
+    texto:'Bajando de la montaña, sin luna y sin apuro. Las luces del carro alcanzaban apenas para el siguiente pedacito de camino, y con eso bastaba. Ni siquiera nos mirábamos: los dos íbamos mirando hacia adelante, que es la manera más bonita de ir juntos.' },
+
   { escena:'cartas', titulo:'Cartitas de papel',
     texto:'Papelitos escritos a mano, doblados, entregados así nomás. Cosas que en el celular no caben.' },
 
