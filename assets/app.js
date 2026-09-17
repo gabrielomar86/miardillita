@@ -164,7 +164,20 @@ function construir() {
   $('#nombre-hero').textContent = CONFIG.nombre;
   $('#hero-art').innerHTML = ART.scenes.hero();
 
-  montarCarrusel();
+  // Capítulos
+  const cont = $('#capitulos');
+  cont.innerHTML = CAPITULOS.map((c, i) => `
+    <article class="capitulo${c.oscuro ? ' oscuro' : ''}" id="cap-${i}">
+      <span class="num">${pad(i + 1)}</span>
+      <div class="lienzo">${ART.scenes[c.escena]()}</div>
+      <div class="texto"><h4>${c.titulo}</h4><p>${c.texto}</p></div>
+    </article>`).join('');
+
+  // Aparecer al hacer scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  $$('.capitulo').forEach((el) => io.observe(el));
 
   montarFotos();
   actualizarContadores();
@@ -241,104 +254,54 @@ function actualizarContadores() {
 }
 
 /* -----------------------------------------------------------
-   Carrusel: clic derecha/izquierda, teclado y deslizar
+   Recorrido guiado: pasa por cada imagen, una por una
    ----------------------------------------------------------- */
-const carrusel = { i: 0, diapos: [], total: 0, auto: false, timer: null };
+let recorrido = { activo:false, i:0, timer:null, parar:null };
 
-function montarCarrusel() {
-  const pista = $('#pista');
-  carrusel.total = CAPITULOS.length;
-
-  // Las diapositivas nacen vacías y se dibujan cuando hacen falta
-  pista.innerHTML = CAPITULOS.map((c, i) =>
-    `<div class="diapo" data-escena="${c.escena}" data-i="${i}"></div>`).join('');
-  carrusel.diapos = $$('.diapo', pista);
-
-  $('#puntos').innerHTML = CAPITULOS.map((c, i) =>
-    `<button class="punto" data-i="${i}" aria-label="Capítulo ${pad(i + 1)}: ${c.titulo}"></button>`).join('');
-  $$('.punto').forEach((b) => b.addEventListener('click', () => {
-    pararAuto(); irA(Number(b.dataset.i));
-  }));
-
-  $('#c-total').textContent = pad(carrusel.total);
-  $('#zona-der').addEventListener('click', () => { pararAuto(); avanzar(1); });
-  $('#zona-izq').addEventListener('click', () => { pararAuto(); avanzar(-1); });
-
-  // Teclado
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') { pararAuto(); avanzar(1); }
-    if (e.key === 'ArrowLeft')  { pararAuto(); avanzar(-1); }
-  });
-
-  // Deslizar con el dedo
-  let x0 = null;
-  const marco = $('.marco');
-  marco.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
-  marco.addEventListener('touchend', (e) => {
-    if (x0 === null) return;
-    const dx = e.changedTouches[0].clientX - x0;
-    if (Math.abs(dx) > 45) { pararAuto(); avanzar(dx < 0 ? 1 : -1); }
-    x0 = null;
-  }, { passive: true });
-
-  irA(0);
-
-  // Aparecer al hacer scroll
-  const io = new IntersectionObserver((ents) => {
-    ents.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  io.observe($('#carrusel'));
-}
-
-/* Dibuja la escena solo cuando toca (y la vecina, para que no parpadee) */
-function dibujar(i) {
-  const d = carrusel.diapos[i];
-  if (!d || d.dataset.listo) return;
-  d.innerHTML = ART.scenes[d.dataset.escena]();
-  d.dataset.listo = '1';
-}
-
-function irA(n) {
-  const total = carrusel.total;
-  const i = ((n % total) + total) % total;
-  carrusel.i = i;
-
-  dibujar(i);
-  dibujar((i + 1) % total);
-  dibujar((i - 1 + total) % total);
-
-  carrusel.diapos.forEach((d, k) => d.classList.toggle('activa', k === i));
-  $$('.punto').forEach((b, k) => b.classList.toggle('activo', k === i));
-
-  const c = CAPITULOS[i];
-  $('#leyenda-titulo').textContent = c.titulo;
-  $('#leyenda-texto').textContent = c.texto;
-  $('#num').textContent = pad(i + 1);
-  $('#c-actual').textContent = pad(i + 1);
-  $('#carrusel').classList.toggle('oscuro', !!c.oscuro);
-}
-
-function avanzar(paso) { irA(carrusel.i + paso); }
-
-/* Recorrido automático (el enlace de la portada) */
 function alternarRecorrido() {
-  if (carrusel.auto) { pararAuto(); return; }
-
-  $('#carrusel').scrollIntoView({ behavior: 'smooth', block: 'center' });
-  carrusel.auto = true;
-  $('#bajar-texto').textContent = 'Detener el recorrido';
-  irA(0);
-
-  carrusel.timer = setInterval(() => {
-    if (carrusel.i >= carrusel.total - 1) { pararAuto(); return; }
-    avanzar(1);
-  }, 4200);
+  recorrido.activo ? detenerRecorrido() : iniciarRecorrido();
 }
 
-function pararAuto() {
-  if (!carrusel.auto) return;
-  carrusel.auto = false;
-  clearInterval(carrusel.timer);
+function iniciarRecorrido() {
+  const paradas = [...$$('.capitulo'), $('.carta')].filter(Boolean);
+  if (!paradas.length) return;
+
+  recorrido.activo = true;
+  recorrido.i = 0;
+  $('#bajar-texto').textContent = 'Detener el recorrido';
+  document.body.classList.add('en-recorrido');
+
+  // Cualquier gesto del usuario corta el recorrido
+  const corta = () => detenerRecorrido();
+  recorrido.parar = corta;
+  ['wheel', 'touchstart', 'keydown'].forEach((ev) =>
+    window.addEventListener(ev, corta, { passive: true }));
+
+  const paso = () => {
+    if (!recorrido.activo) return;
+    if (recorrido.i >= paradas.length) { detenerRecorrido(); return; }
+
+    const el = paradas[recorrido.i];
+    el.classList.add('visible', 'destacada-paso');
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    recorrido.timer = setTimeout(() => {
+      el.classList.remove('destacada-paso');
+      recorrido.i++;
+      paso();
+    }, 3400);
+  };
+  paso();
+}
+
+function detenerRecorrido() {
+  recorrido.activo = false;
+  clearTimeout(recorrido.timer);
+  if (recorrido.parar)
+    ['wheel', 'touchstart', 'keydown'].forEach((ev) =>
+      window.removeEventListener(ev, recorrido.parar));
+  $$('.destacada-paso').forEach((el) => el.classList.remove('destacada-paso'));
+  document.body.classList.remove('en-recorrido');
   const t = $('#bajar-texto');
   if (t) t.textContent = 'Míralas una por una';
 }
