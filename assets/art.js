@@ -160,7 +160,7 @@ const ART = (() => {
   function squirrel(o = {}) {
     const {
       x = 0, y = 0, s = 1, flip = false, outfit = 'none',
-      eyes = 'happy', arms = 'down', flower = false, bow = false, pelo = 'none', mayor = false, extra = '', tail = true,
+      eyes = 'happy', arms = 'down', flower = false, bow = false, pelo = 'none', extra = '', tail = true,
       fur = C.fur, furD = C.furD, furL = C.furL, belly = C.belly, tears = false,
     } = o;
 
@@ -192,39 +192,19 @@ const ART = (() => {
 
     const outfitSVG = { tee: teeMetal(), dress: dressBeach(), towel: towel(), none: '' }[outfit] || '';
 
-    // Melena: la mata que cae por detrás va debajo de la cabeza…
+    // Solo el moño de la coronilla
     const pelo1 = '#2F2A28', pelo2 = '#4A423E';
-    const peloAtras = pelo === 'mono' ? `
-      <path d="M56,18 C33,24 22,48 25,74 C26,88 35,97 45,92 C35,77 35,49 54,32 Z" fill="${pelo1}"/>
-      <path d="M52,24 C36,32 29,52 31,72 C32,82 37,88 43,86 C36,72 37,48 51,34 Z" fill="${pelo2}" opacity=".55"/>
-      <path d="M46,30 C34,42 32,62 36,80" stroke="${pelo1}" stroke-width="3" fill="none" stroke-linecap="round"/>` : '';
-
-    // …y el moño de la coronilla va encima de todo
     const peloMono = pelo === 'mono' ? `
-      <path d="M44,30 C44,16 54,8 66,9 C78,10 84,18 82,28 C76,18 62,14 44,30 Z" fill="${pelo1}"/>
-      <path d="M48,26 C52,17 60,13 70,14" stroke="${pelo2}" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".8"/>
-      <g transform="translate(66,10)">
+      <path d="M45,30 C45,17 55,9 66,10 C77,11 83,19 81,28 C75,19 62,15 45,30 Z" fill="${pelo1}"/>
+      <path d="M49,26 C53,18 60,14 69,15" stroke="${pelo2}" stroke-width="2.4" fill="none"
+        stroke-linecap="round" opacity=".8"/>
+      <g transform="translate(66,11)">
         <path d="M-9,4 C-11,-6 -3,-11 4,-9 C11,-7 12,2 6,6 C1,9 -7,9 -9,4 Z" fill="${pelo1}"/>
         <path d="M-6,2 C-7,-4 -2,-7 3,-6" stroke="${pelo2}" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <path d="M-2,-10 l-3,-7 M4,-10 l4,-6 M-8,-6 l-7,-4" stroke="${pelo1}" stroke-width="2.4"
+        <path d="M-2,-10 l-3,-6 M4,-10 l4,-5" stroke="${pelo1}" stroke-width="2.4"
           fill="none" stroke-linecap="round"/>
         <ellipse cx="-1" cy="7" rx="7.5" ry="3" fill="#B31F2A"/>
         <ellipse cx="-1" cy="6.2" rx="7.5" ry="1.6" fill="#D62828"/>
-      </g>
-      <path d="M50,28 C46,38 46,48 48,56" stroke="${pelo1}" stroke-width="3.4" fill="none" stroke-linecap="round"/>
-      ${mayor ? `<g stroke="#9C9490" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".8">
-        <path d="M49,30 C45,40 45,50 47,58"/><path d="M57,22 C53,28 51,34 51,40"/>
-        <path d="M60,12 C64,14 66,18 65,22"/></g>` : ''}` : '';
-
-    // Barba y cejas: lo que le pone los años encima
-    const rasgosMayor = mayor ? `
-      <path d="M51,50 C49,64 57,74 69,74 C80,74 87,66 87,55 C83,64 75,68 66,66 C58,64 53,58 51,50 Z"
-        fill="${pelo1}" opacity=".92"/>
-      <path d="M55,56 C56,66 62,71 70,71 C77,71 82,67 84,61 C79,66 71,67 64,64 C59,62 56,60 55,56 Z"
-        fill="${pelo2}" opacity=".5"/>
-      <path d="M66,66 C67,72 68,76 68,80" stroke="${pelo1}" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <g stroke="${pelo1}" stroke-width="3.6" fill="none" stroke-linecap="round">
-        <path d="M66,31 C70,28 75,28 78,31"/><path d="M50,31 C53,28 57,28 60,30"/>
       </g>` : '';
 
     return `<g class="sq" transform="translate(${x},${y}) scale(${flip ? -s : s},${s})">
@@ -239,7 +219,6 @@ const ART = (() => {
       ${outfitSVG}
       <ellipse cx="36" cy="79" rx="7.5" ry="12" fill="${furD}" transform="rotate(-14 36 79)"/>
       ${armR}
-      ${peloAtras}
       <path d="M50,30 C45,10 57,4 62,22 Z" fill="${furD}"/>
       <path d="M52,28 C50,15 57,12 60,22 Z" fill="${C.ear}"/>
       <path d="M74,24 C80,5 91,11 84,30 Z" fill="${furD}"/>
@@ -252,7 +231,6 @@ const ART = (() => {
       <ellipse cx="78" cy="60" rx="5.5" ry="3.2" fill="${C.blush}" opacity=".55"/>
       <ellipse cx="52" cy="57" rx="5" ry="3" fill="${C.blush}" opacity=".5"/>
       <path d="M86,50 l10,-3 M86,54 l10,2" stroke="${C.ink}" stroke-width="1.2" opacity=".5"/>
-      ${rasgosMayor}
       ${peloMono}
       ${tears ? `<ellipse cx="74" cy="52" rx="2.6" ry="4" fill="#8FC7E8" opacity=".9"/>` : ''}
       ${bow ? `<g transform="translate(80,20) rotate(14)">
@@ -267,7 +245,7 @@ const ART = (() => {
   const he = (o = {}) => {
     const base = o.s ?? 1;
     return squirrel({
-      outfit: 'tee', pelo: 'mono', mayor: true, ...o,
+      outfit: 'tee', pelo: 'mono', ...o,
       s: base * 1.09,
       y: (o.y ?? 0) - 106 * base * 0.09,   // compensa el alto extra para que no se hunda
     });
