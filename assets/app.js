@@ -166,32 +166,12 @@ function construir() {
 
   // Capítulos
   const cont = $('#capitulos');
-  cont.innerHTML = CAPITULOS.map((c, i) => {
-    const ultimo = i === CAPITULOS.length - 1;
-    return `
+  cont.innerHTML = CAPITULOS.map((c, i) => `
     <article class="capitulo${c.oscuro ? ' oscuro' : ''}" id="cap-${i}">
       <span class="num">${pad(i + 1)}</span>
       <div class="lienzo">${ART.scenes[c.escena]()}</div>
-      <div class="texto">
-        <h4>${c.titulo}</h4>
-        <p>${c.texto}</p>
-        <button class="siguiente" data-ir="${ultimo ? 'carta' : 'cap-' + (i + 1)}">
-          ${ultimo ? 'Leer la carta' : 'Siguiente capítulo'}
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-      </div>
-    </article>`;
-  }).join('');
-
-  // Cada botón lleva al siguiente capítulo
-  $$('.siguiente').forEach((b) => b.addEventListener('click', () => {
-    detenerRecorrido();
-    const destino = b.dataset.ir === 'carta' ? $('.carta') : $('#' + b.dataset.ir);
-    if (!destino) return;
-    destino.classList.add('visible');
-    destino.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }));
+      <div class="texto"><h4>${c.titulo}</h4><p>${c.texto}</p></div>
+    </article>`).join('');
 
   // Aparecer al hacer scroll
   const io = new IntersectionObserver((entries) => {
