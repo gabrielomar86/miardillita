@@ -34,7 +34,7 @@ const CAPITULOS = [
     texto:'Había una vez dos ardillas en el mismo árbol que todavía no se conocían. Nada especial, nada anunciado. Solo el día en que, sin saberlo, empezó todo.' },
 
   { escena:'chispa', titulo:'La ratita que era ardillita',
-    texto:'Lo nuestro empezó rarísimo: le dije que su voz parecía de ratita. Me corregí al toque — de ardilla, más bien. Ardillita. Y así se quedó, para siempre.' },
+    texto:'Lo nuestro empezó rarísimo: le dije que su voz parecía de ratita. Me corregí enseguida — de ardilla, más bien. Ardillita. Y así se quedó, para siempre.' },
 
   { escena:'termales', titulo:'Papallacta',
     texto:'Agua caliente, vapor subiendo y las montañas alrededor. Ahí mismo, los masajes y los silencios buenos. Descubrimos que en esa poza el mundo se queda afuera.' },
