@@ -42,6 +42,53 @@ const ART = (() => {
     `<path transform="translate(${x},${y}) scale(${s})" fill="#FFF7D6" opacity="${op}"
       d="M0,-4 L1.1,-1.1 L4,0 L1.1,1.1 L0,4 L-1.1,1.1 L-4,0 L-1.1,-1.1 Z"/>`;
 
+
+  /* Corazón partido en dos mitades, con el filo dentado */
+  const corazonRoto = (x, y, s = 1, fill = '#8E3B44', op = .9) => {
+    const c = id('clip');
+    const d = 'M0,6 C-9,-2 -9,-12 -2,-12 C1.5,-12 0,-8.5 0,-8.5 C0,-8.5 -1.5,-12 2,-12 C9,-12 9,-2 0,6 Z';
+    const izq = '-14,-15 0.6,-15 -1.6,-9.4 1.2,-5.2 -1.2,-1 1.6,3 0,8.6 -14,8.6';
+    const der = '0.6,-15 14,-15 14,8.6 0,8.6 1.6,3 -1.2,-1 1.2,-5.2 -1.6,-9.4';
+    return `<g transform="translate(${x},${y}) scale(${s})" opacity="${op}">
+      <defs>
+        <clipPath id="${c}a"><polygon points="${izq}"/></clipPath>
+        <clipPath id="${c}b"><polygon points="${der}"/></clipPath>
+      </defs>
+      <g transform="translate(-3.4,0.6) rotate(-13)">
+        <g clip-path="url(#${c}a)"><path d="${d}" fill="${fill}"/>
+          <path d="${d}" fill="none" stroke="#5E2730" stroke-width="1.1"/></g>
+      </g>
+      <g transform="translate(3.4,2.4) rotate(15)">
+        <g clip-path="url(#${c}b)"><path d="${d}" fill="${fill}"/>
+          <path d="${d}" fill="none" stroke="#5E2730" stroke-width="1.1"/></g>
+      </g>
+    </g>`;
+  };
+
+  /* Corazón ya curado: cosido por la mitad y con su parche encima */
+  const corazonCurado = (x, y, s = 1) => `
+    <g transform="translate(${x},${y}) scale(${s})">
+      <path d="M0,6 C-9,-2 -9,-12 -2,-12 C1.5,-12 0,-8.5 0,-8.5 C0,-8.5 -1.5,-12 2,-12 C9,-12 9,-2 0,6 Z" fill="${C.red}"/>
+      <path d="M0,6 C-9,-2 -9,-12 -2,-12 C1.5,-12 0,-8.5 0,-8.5 C0,-8.5 -1.5,-12 2,-12 C9,-12 9,-2 0,6 Z"
+        fill="none" stroke="${C.redD}" stroke-width=".9" opacity=".7"/>
+      <!-- la costura, por donde se partió -->
+      <path d="M-0.4,-9.4 L1,-5.2 L-1,-1 L1.4,3 L0,6" stroke="${C.redD}" stroke-width=".9"
+        fill="none" opacity=".75"/>
+      <g stroke="#FFE3C8" stroke-width=".85" stroke-linecap="round" opacity=".95">
+        <path d="M-2.6,-8.4 L2,-9.6 M-1.4,-4.6 L3,-5.8 M-3.4,-0.4 L1,-1.6 M-1,3.6 L3.4,2.4"/>
+      </g>
+      <!-- el parche -->
+      <g transform="rotate(-28)">
+        <rect x="-9.5" y="-2.6" width="19" height="5.2" rx="2.6" fill="#F3DCBE"
+          stroke="#DCC19C" stroke-width=".6"/>
+        <rect x="-3.4" y="-2.6" width="6.8" height="5.2" fill="#E9CFAC"/>
+        <g fill="#D8BC95">
+          <circle cx="-2" cy="-1" r=".5"/><circle cx="0" cy="0" r=".5"/><circle cx="2" cy="1" r=".5"/>
+          <circle cx="0" cy="-1.6" r=".5"/><circle cx="-1.6" cy="1" r=".5"/><circle cx="1.6" cy="-1" r=".5"/>
+        </g>
+      </g>
+    </g>`;
+
   /* Girasol */
   const sunflower = (x, y, s = 1, rot = 0) => {
     let p = '';
@@ -403,8 +450,7 @@ const ART = (() => {
       ${he({ x: 210, y: 240, s: 1.15, flip: true, eyes: 'sad', arms: 'down', tears: true, fur: '#8E6238', furD: '#6F4A29', furL: '#A87B4E' })}
       ${she({ x: 500, y: 240, s: 1.15, eyes: 'sad', arms: 'down', tears: true, fur: '#9C6C43', furD: '#7A5231', furL: '#B58757' })}
       <path d="M400,244 l-10,34 l14,26 l-12,32 l10,26" stroke="#2E333B" stroke-width="7" fill="none" stroke-linecap="round" opacity=".85"/>
-      <g opacity=".85">${heart(400, 196, 2.6, '#7A3B44', .9)}
-        <path d="M398,178 l-8,18 l10,10 l-8,16" stroke="#3E4550" stroke-width="4" fill="none"/></g>
+      ${corazonRoto(400, 186, 3.6, '#8E3B44', .92)}
       ${redFlower(96, 452, .7)}${redFlower(716, 456, .65)}`);
   };
 
@@ -423,7 +469,7 @@ const ART = (() => {
       ${ground('#8FC46F', '#75AC59')}
       ${he({ x: 268, y: 232, s: 1.25, eyes: 'closed', arms: 'hug' })}
       ${she({ x: 452, y: 232, s: 1.25, flip: true, eyes: 'closed', arms: 'hug' })}
-      <g class="pulse">${heart(400, 214, 2.8, C.red, .95)}</g>
+      <g class="pulse">${corazonCurado(400, 214, 2.9)}</g>
       ${[...Array(10)].map((_, i) => petal(rnd(60, 740), rnd(120, 340), rnd(.8, 1.5), rnd(0, 180), C.red, rnd(.4, .85))).join('')}
       ${sunflower(64, 452, .95)}${sunflower(744, 458, 1)}${redFlower(160, 448, .8)}${redFlower(648, 452, .8)}`);
   };
