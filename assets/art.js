@@ -271,81 +271,58 @@ const ART = (() => {
       ${redFlower(150, 450, .78)}${redFlower(660, 452, .8)}`);
   };
 
-  /* 03 — Termales de Papallacta */
-  scenes.piscina = () => {
+  /* 03 — Termales de Papallacta: el agua caliente y los masajes, todo ahí mismo */
+  scenes.termales = () => {
     const [g, d] = skyGrad('#A9CFE3', '#E8F3EC');
     let vapor = '';
-    for (let i = 0; i < 9; i++) {
-      const x = 90 + i * 78, sc = rnd(.7, 1.3);
-      vapor += `<g class="float" style="--d:${(i * .55).toFixed(1)}s" opacity="${rnd(.3, .6)}">
-        <path d="M${x},312 q-16,-34 2,-62 q18,-28 0,-58" stroke="#FFFFFF" stroke-width="${10 * sc}"
+    for (let i = 0; i < 11; i++) {
+      const x = 60 + i * 70, sc = rnd(.7, 1.35);
+      vapor += `<g class="float" style="--d:${(i * .48).toFixed(1)}s" opacity="${rnd(.28, .6)}">
+        <path d="M${x},318 q-16,-36 2,-64 q18,-30 0,-60" stroke="#FFFFFF" stroke-width="${10 * sc}"
           fill="none" stroke-linecap="round"/></g>`;
     }
     let burbujas = '';
-    for (let i = 0; i < 22; i++)
-      burbujas += `<circle cx="${rnd(70, 740)}" cy="${rnd(320, 430)}" r="${rnd(2, 6)}" fill="#fff" opacity="${rnd(.3, .7)}"/>`;
+    for (let i = 0; i < 24; i++)
+      burbujas += `<circle cx="${rnd(70, 740)}" cy="${rnd(330, 432)}" r="${rnd(2, 6)}" fill="#fff" opacity="${rnd(.3, .7)}"/>`;
+
     return frame(d, `
       <rect width="800" height="460" fill="url(#${g})"/>
       ${cloud(180, 58, .8, .55)}${cloud(640, 48, .7, .45)}
+
+      <!-- montañas -->
       <path d="M-40,250 L130,96 L250,192 L360,70 L470,186 L600,86 L740,200 L860,130 L860,300 L-40,300 Z" fill="#6E7F86"/>
       <path d="M130,96 L168,130 L96,130 Z M360,70 L400,110 L318,110 Z M600,86 L640,128 L558,128 Z" fill="#F2F6F8"/>
       <path d="M-40,300 L120,206 L280,286 L420,200 L560,282 L700,212 L860,288 L860,340 L-40,340 Z" fill="#4F6B58"/>
       <path d="M-40,336 L860,336 L860,460 L-40,460 Z" fill="#3E5B49"/>
-      <path d="M40,318 q120,-22 260,-8 q160,16 300,-4 q100,-14 180,4 l0,34 l-740,0 z" fill="#8A7A66"/>
-      <rect x="54" y="336" width="692" height="112" rx="40" fill="#2E9A94"/>
-      <rect x="54" y="336" width="692" height="112" rx="40" fill="#55BDB4" opacity=".62"/>
-      <path d="M78,392 q30,-11 60,0 t60,0 t60,0 t60,0 t60,0 t60,0 t60,0 t60,0 t60,0"
-        stroke="#BFEDE6" stroke-width="4.5" fill="none" opacity=".7"/>
+
+      <!-- borde de piedra y poza -->
+      <path d="M40,320 q120,-22 260,-8 q160,16 300,-4 q100,-14 180,4 l0,34 l-740,0 z" fill="#8A7A66"/>
+      <rect x="54" y="338" width="692" height="112" rx="40" fill="#2E9A94"/>
+      <rect x="54" y="338" width="692" height="112" rx="40" fill="#55BDB4" opacity=".62"/>
       ${burbujas}
-      ${[...Array(7)].map((_, i) => `<ellipse cx="${[36,120,700,764,22,748,400][i]}" cy="${[330,318,318,332,352,352,318][i]}"
+      ${[...Array(6)].map((_, i) => `<ellipse cx="${[30,116,706,768,20,754][i]}" cy="${[332,320,320,334,354,354][i]}"
         rx="${rnd(16,30)}" ry="${rnd(10,18)}" fill="#7C6E5E"/>`).join('')}
-      ${he({ x: 236, y: 226, s: 1.05, eyes: 'closed', arms: 'side' })}
-      ${she({ x: 448, y: 226, s: 1.05, flip: true, eyes: 'closed', arms: 'side' })}
-      <rect x="54" y="392" width="692" height="56" rx="26" fill="#2E9A94" opacity=".55"/>
-      ${vapor}
-      ${sunflower(26, 342, .72)}${redFlower(776, 344, .72)}`);
-  };
 
-  /* 04 — Masajes: ella adelante, él detrás con las manos en sus hombros */
-  scenes.calma = () => {
-    const [g, d] = skyGrad('#F7E4D0', '#EFD4B8');
-    const vela = (x, y) => `
-      <g transform="translate(${x},${y})">
-        <rect x="-15" y="0" width="30" height="56" rx="8" fill="#FFF3E0"/>
-        <rect x="-15" y="0" width="30" height="12" rx="6" fill="#FFE6C6"/>
-        <ellipse cx="0" cy="-9" rx="7" ry="13" fill="#FFB43F" class="pulse"/>
-        <ellipse cx="0" cy="-6" rx="3.2" ry="6" fill="#FFF0B0"/>
-        <circle cx="0" cy="-26" r="26" fill="#FFD48A" opacity=".2"/></g>`;
-    return frame(d, `
-      <rect width="800" height="460" fill="url(#${g})"/>
-      <circle cx="400" cy="150" r="190" fill="#FFF0DC" opacity=".55"/>
-      <path d="M0,338 L800,338 L800,460 L0,460 Z" fill="#C9A17C"/>
-      <path d="M0,338 L800,338" stroke="#A8825E" stroke-width="5"/>
-      <rect x="112" y="322" width="576" height="46" rx="20" fill="#F2A0A0"/>
-      <rect x="112" y="322" width="576" height="16" rx="8" fill="#F9BDBD"/>
-      <path d="M112,368 q18,10 36,0 q18,-10 36,0 q18,10 36,0" stroke="#E68B8B" stroke-width="3" fill="none"/>
-
-      <!-- él, detrás -->
-      ${he({ x: 296, y: 128, s: 1.18, eyes: 'happy', arms: 'down' })}
-      <!-- ella, adelante -->
-      ${she({ x: 356, y: 214, s: 1.28, eyes: 'closed', arms: 'down' })}
-      <!-- sus manos en los hombros de ella -->
+      <!-- él detrás, ella adelante: el masaje dentro del agua -->
+      ${he({ x: 314, y: 178, s: 1.0, eyes: 'happy', arms: 'down' })}
+      ${she({ x: 352, y: 222, s: 1.12, eyes: 'closed', arms: 'down' })}
       <g>
-        <ellipse cx="398" cy="304" rx="15" ry="11" fill="#C4713A" transform="rotate(-16 398 304)"/>
-        <ellipse cx="398" cy="304" rx="9" ry="6.5" fill="#E2A165" transform="rotate(-16 398 304)" opacity=".8"/>
-        <ellipse cx="512" cy="300" rx="15" ry="11" fill="#C4713A" transform="rotate(14 512 300)"/>
-        <ellipse cx="512" cy="300" rx="9" ry="6.5" fill="#E2A165" transform="rotate(14 512 300)" opacity=".8"/>
+        <ellipse cx="398" cy="302" rx="14" ry="10.5" fill="#C4713A" transform="rotate(-16 398 302)"/>
+        <ellipse cx="398" cy="302" rx="8.5" ry="6" fill="#E2A165" transform="rotate(-16 398 302)" opacity=".8"/>
+        <ellipse cx="452" cy="299" rx="14" ry="10.5" fill="#C4713A" transform="rotate(14 452 299)"/>
+        <ellipse cx="452" cy="299" rx="8.5" ry="6" fill="#E2A165" transform="rotate(14 452 299)" opacity=".8"/>
       </g>
 
-      ${vela(92, 282)}${vela(708, 282)}
-      <g opacity=".65">
-        <path d="M196,300 q-10,-26 0,-48 q10,-22 0,-42" stroke="#fff" stroke-width="4" fill="none"
-          stroke-linecap="round" class="float"/>
-        <path d="M614,300 q10,-26 0,-48 q-10,-22 0,-42" stroke="#fff" stroke-width="4" fill="none"
-          stroke-linecap="round" class="float" style="--d:1.3s"/>
-      </g>
-      ${heart(400, 92, 2.1, C.red, .4)}${heart(330, 128, 1.2, '#F2708C', .35)}
-      ${redFlower(46, 452, .78)}${redFlower(756, 456, .78)}`);
+      <!-- la superficie del agua les tapa de la cintura para abajo -->
+      <rect x="54" y="352" width="692" height="98" rx="34" fill="#2E9A94" opacity=".62"/>
+      <path d="M78,368 q30,-11 60,0 t60,0 t60,0 t60,0 t60,0 t60,0 t60,0 t60,0 t60,0"
+        stroke="#BFEDE6" stroke-width="4.5" fill="none" opacity=".75"/>
+      <path d="M78,404 q30,-10 60,0 t60,0 t60,0 t60,0 t60,0 t60,0 t60,0 t60,0 t60,0"
+        stroke="#BFEDE6" stroke-width="3.5" fill="none" opacity=".5"/>
+
+      ${vapor}
+      <g opacity=".55">${heart(400, 120, 1.9, C.red, .8)}${heart(322, 148, 1.1, '#F2708C', .7)}</g>
+      ${sunflower(24, 344, .7)}${redFlower(778, 346, .7)}`);
   };
 
   /* 05 — Zoológico */
