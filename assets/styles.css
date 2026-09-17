@@ -198,3 +198,24 @@ footer .flores{display:flex;gap:6px;justify-content:center;margin-bottom:10px;fo
   transform:scale(1.012)!important;transition:box-shadow .5s ease,transform .5s ease;
 }
 body.en-recorrido{cursor:progress}
+
+/* ---------- El número de la edad, hecho de pétalos ---------- */
+#numero-edad{
+  position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(64vw,470px);pointer-events:none;opacity:0;
+  transition:opacity 1.4s ease;
+}
+#numero-edad.entrando{opacity:.9}
+#numero-edad.discreto{opacity:.13}
+#numero-edad svg{width:100%;height:auto;display:block}
+.pf{animation:asentar 1s cubic-bezier(.2,.7,.3,1) both}
+@keyframes asentar{
+  from{transform:translate(var(--ox,0),var(--oy,-200px)) scale(.4);opacity:0}
+  to{transform:none;opacity:1}
+}
+
+/* ---------- Botón de descarga ---------- */
+a.boton,button.boton{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-width:250px}
+.boton svg{transition:transform .25s ease}
+.boton:hover svg{transform:translateY(3px)}
+.boton[data-ocupado]{opacity:.75;cursor:progress}

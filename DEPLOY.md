@@ -36,12 +36,36 @@ El archivo `CNAME` de este repo ya contiene `miardillita.org`, así que:
 
 ---
 
+## El PDF
+
+El botón **"Baja nuestra historia"** arma el PDF **en el navegador de quien lo
+pulsa**, en el momento. No hay ningún archivo que mantener actualizado: toma las
+mismas escenas y textos que está viendo, así que siempre coincide con la página.
+
+Funciona así: cada escena se rasteriza con el propio motor SVG del navegador
+—por eso salen idénticas, con sus máscaras y degradados— y se monta en un A4
+horizontal con su número, su título y su texto. Trae portada, los doce capítulos
+y la carta final. Tarda unos segundos y el botón va mostrando el avance.
+
+Lo único que necesita es conexión, porque carga la librería jsPDF desde
+cdnjs.cloudflare.com la primera vez que se pulsa.
+
+### Alternativa con mejor tipografía
+
+`imprimible.html` es la misma historia maquetada para papel. Ábrela en el
+navegador y usa Cmd+P → "Guardar como PDF". Sale en vectores y con la tipografía
+Quicksand de la página, así que se ve mejor que el PDF del botón; a cambio, hay
+que hacerlo a mano.
+
+---
+
 ## Antes de publicar — lista de control
 
-- [ ] Poner `demoSegundos: 0` en `assets/app.js` (si no, el candado se abre a los
-      20 segundos en lugar del 21 de septiembre).
+- [ ] Poner `demoSegundos: 0` en `assets/datos.js` (si no, el candado se abre a
+      los pocos segundos en lugar del 21 de septiembre).
 - [ ] Copiar la ilustración a `assets/fotos/ardillitas.jpg`.
-- [ ] Ajustar `aniversario` en `assets/app.js` con la fecha real.
+- [ ] Ajustar `aniversario` en `assets/datos.js` con la fecha real.
+- [ ] Regenerar el PDF si cambiaste algo: `./tools/generar-pdf.sh`
 - [ ] Abrir la página en el celular para revisarla.
 
 ## Ojo con la hora

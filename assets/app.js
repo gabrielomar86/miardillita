@@ -1,71 +1,7 @@
 /* ===========================================================
    app.js — lógica de la página
+   (la configuración y los capítulos están en datos.js)
    =========================================================== */
-
-/* -----------------------------------------------------------
-   ⚙️  CONFIGURACIÓN — edita solo estas líneas
-   ----------------------------------------------------------- */
-const CONFIG = {
-  nombre:       'Ardillita',                 // cómo la llamas
-  apertura:     '2026-09-21T00:00:00',       // la página se abre aquí (21 sept, 00:00)
-  reencuentro:  '2026-09-25T00:00:00',       // el día que se ven
-  aniversario:  '2024-09-01',                // desde cuándo están juntos (AAAA-MM-DD)
-  nacimiento:   '',                          // opcional: AAAA-MM-DD para mostrar la edad
-
-  // 🧪 PRUEBA: ignora la fecha real y hace que el candado se abra en X segundos.
-  //    En 0 manda la fecha real de arriba. Para revisarla igual, abre  ?preview=1
-  demoSegundos: 0,
-
-  // 📸 Fotos. La primera sale grande arriba; el resto, en la galería.
-  // Copia tus imágenes a  assets/fotos/  y escribe aquí sus nombres.
-  fotos: [
-    'assets/fotos/ardillitas.jpg',           // <- la ilustración del abrazo
-    // 'assets/fotos/piscina.jpg',
-    // 'assets/fotos/mirador.jpg',
-  ],
-};
-/* Para ver la página antes del 21, abre el archivo con  ?preview=1  al final. */
-
-/* -----------------------------------------------------------
-   Capítulos
-   ----------------------------------------------------------- */
-const CAPITULOS = [
-  { escena:'desconocidos', titulo:'Dos desconocidos',
-    texto:'Había una vez dos ardillas en el mismo árbol que todavía no se conocían. Nada especial, nada anunciado. Solo el día en que, sin saberlo, empezó todo.' },
-
-  { escena:'chispa', titulo:'La ratita que era ardillita',
-    texto:'Lo nuestro empezó rarísimo: le dije que su voz parecía de ratita. Me corregí enseguida — de ardilla, más bien. Ardillita. Y así se quedó, para siempre.' },
-
-  { escena:'termales', titulo:'Papallacta',
-    texto:'Agua caliente, vapor subiendo y las montañas alrededor. Ahí mismo, los masajes y los silencios buenos. Descubrimos que en esa poza el mundo se queda afuera.' },
-
-  { escena:'carretera', titulo:'La carretera',
-    texto:'Bajando de la montaña, sin luna y sin apuro. Las luces del carro alcanzaban apenas para el siguiente pedacito de camino, y con eso bastaba. Ni siquiera nos mirábamos: los dos íbamos mirando hacia adelante, que es la manera más bonita de ir juntos.' },
-
-  { escena:'cartas', titulo:'Cartitas de papel',
-    texto:'Papelitos escritos a mano, doblados, entregados así nomás. Cosas que en el celular no caben.' },
-
-  { escena:'zoo', titulo:'El zoológico',
-    texto:'Fuimos a ver animales y terminamos siendo los dos más felices del lugar.' },
-
-  { escena:'quito', titulo:'Los miradores',
-    texto:'Quito entero encendido allá abajo… y yo mirándote a ti.' },
-
-  { escena:'tormenta', titulo:'La tormenta', oscuro:true,
-    texto:'También hubo días grises. Dolieron, no lo voy a negar. Pero ninguno alcanzó a borrar el camino que ya habíamos hecho.' },
-
-  { escena:'volver', titulo:'Volver',
-    texto:'Y siempre, siempre, encontramos la forma de volver. Eso también es amor: quedarse después de la lluvia.' },
-
-  { escena:'ardillita', titulo:'Mi ardillita',
-    texto:'Recogí todos los pétalos rojos del camino y, al soltarlos, solo se formaron dos palabras.' },
-
-  { escena:'calendario', titulo:'Tu día y el nuestro',
-    texto:'Tu cumpleaños es el 21, y nuestro abrazo llega poquito después. Y está bien: la fecha es apenas un número en una pared. Lo que cuenta son los detalles, las ganas y todo lo que ya te estoy guardando.' },
-
-  { escena:'pastel', titulo:'Feliz cumpleaños',
-    texto:'Dos años, mil aventuras y un montón de girasoles. Gracias por todo esto. Te amo, ardillita.' },
-];
 
 /* -----------------------------------------------------------
    Utilidades
@@ -108,6 +44,50 @@ function lluviaDePetalos(n = 22) {
     el.style.opacity = (0.5 + Math.random() * 0.5).toFixed(2);
     capa.appendChild(el);
   }
+}
+
+/* -----------------------------------------------------------
+   El número de la edad, formado por los pétalos que caen.
+   Solo aparece una vez abierta la página; en el contador, no.
+   ----------------------------------------------------------- */
+function numeroDePetalos(texto) {
+  const W = 460, H = 300;
+  const rojos = ['#D62828', '#B81E1E', '#9E1B1B', '#E8453F', '#C22525', '#A81C1C'];
+  let petalos = '';
+  for (let i = 0; i < 700; i++) {
+    const x = Math.random() * W, y = 30 + Math.random() * (H - 60);
+    const ox = (Math.random() * 2 - 1) * 260;          // de dónde viene volando
+    const oy = -180 - Math.random() * 220;
+    const giro = Math.random() * 180;
+    const retardo = (Math.random() * 1.6).toFixed(2);
+    petalos += `<g class="pf" style="--ox:${ox.toFixed(0)}px;--oy:${oy.toFixed(0)}px;animation-delay:${retardo}s">
+      <ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}"
+        rx="${(5 + Math.random() * 4).toFixed(1)}" ry="${(2.6 + Math.random() * 1.8).toFixed(1)}"
+        fill="${rojos[(Math.random() * rojos.length) | 0]}"
+        transform="rotate(${giro.toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/></g>`;
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs><mask id="mask-edad">
+      <rect width="${W}" height="${H}" fill="#000"/>
+      <text x="${W / 2}" y="${H / 2}" text-anchor="middle" dominant-baseline="central"
+        font-family="Quicksand, Nunito, Verdana, sans-serif" font-size="230" font-weight="700"
+        fill="#fff">${texto}</text>
+    </mask></defs>
+    <g mask="url(#mask-edad)">${petalos}</g>
+  </svg>`;
+}
+
+function mostrarNumeroEdad() {
+  const n = CONFIG.edad;
+  if (!n) return;
+  const caja = document.createElement('div');
+  caja.id = 'numero-edad';
+  caja.innerHTML = numeroDePetalos(String(n));
+  $('#petalos').appendChild(caja);
+
+  // Se muestra en grande al abrirse y luego se queda de fondo, discreto
+  requestAnimationFrame(() => caja.classList.add('entrando'));
+  setTimeout(() => { caja.classList.remove('entrando'); caja.classList.add('discreto'); }, 5200);
 }
 
 /* Corazones al tocar la pantalla */
@@ -182,6 +162,7 @@ function construir() {
   }, { threshold: 0.12 });
   $$('.capitulo').forEach((el) => io.observe(el));
 
+  mostrarNumeroEdad();
   montarFotos();
   actualizarContadores();
   setInterval(actualizarContadores, 1000);
@@ -319,8 +300,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $('#bajar')?.addEventListener('click', (e) => { e.preventDefault(); alternarRecorrido(); });
 
-  $('#boton-confeti')?.addEventListener('click', () => {
-    lluviaDePetalos(40);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  prepararDescarga();   // el botón que arma el PDF (assets/pdf.js)
 });

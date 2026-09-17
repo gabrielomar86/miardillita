@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Nuestra historia</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page{size:A4 landscape;margin:0}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{font-family:'Quicksand',Verdana,sans-serif;color:#4A2C1A;background:#fff}
+  .hoja{
+    width:297mm;height:210mm;page-break-after:always;break-after:page;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:11mm 16mm;position:relative;overflow:hidden;
+    background:radial-gradient(160mm 90mm at 10% -6%, #FFE7CE 0%, transparent 62%),
+               radial-gradient(140mm 80mm at 92% 4%, #FDE1E1 0%, transparent 56%), #FFF8F0;
+  }
+  .hoja:last-child{page-break-after:auto;break-after:auto}
+  .lienzo{width:100%;max-height:118mm;line-height:0;border-radius:6mm;overflow:hidden;
+    border:1.2mm solid #fff;box-shadow:0 4mm 12mm rgba(122,82,48,.14)}
+  .lienzo svg{width:100%;height:auto;display:block}
+  .pie{margin-top:7mm;text-align:center;max-width:220mm}
+  .num{display:inline-block;background:#fff;color:#D62828;font-weight:700;
+    border-radius:99px;padding:1.6mm 5mm;font-size:11pt;letter-spacing:.06em;
+    box-shadow:0 2mm 6mm rgba(122,82,48,.14);margin-bottom:3mm}
+  h2{font-size:21pt;margin:0 0 2mm}
+  p{font-size:12.5pt;line-height:1.6;color:#8A6A4E;margin:0}
+  .oscuro{background:#3E4550}
+  .oscuro h2{color:#FFE9C9}.oscuro p{color:#C9D2DA}
+  .oscuro .num{background:rgba(255,255,255,.12);color:#FFD447}
+  .oscuro .lienzo{border-color:#2E333B}
+
+  /* portada y contraportada */
+  .cinta{font-size:9.5pt;letter-spacing:.2em;text-transform:uppercase;color:#9E1B1B;
+    background:#FFE7E1;border-radius:99px;padding:2mm 6mm;font-weight:700}
+  h1{font-size:44pt;line-height:1.04;margin:5mm 0 2mm;font-weight:700;color:#D62828}
+  .sub{font-size:24pt;font-weight:700;margin:0 0 3mm}
+  .intro{font-size:13pt;color:#8A6A4E;max-width:180mm;text-align:center}
+  .portada-art{width:150mm;margin:2mm auto -6mm}
+  .carta{max-width:200mm;text-align:center}
+  .carta h2{font-size:26pt;margin-bottom:6mm}
+  .carta p{font-size:14pt;margin:0 0 5mm}
+  .firma{color:#D62828;font-weight:700;font-size:17pt;margin-top:6mm!important}
+  .flores{font-size:20pt;letter-spacing:4mm;margin-top:8mm}
+  /* en papel, los dibujos van quietos */
+  .float,.pulse,.pf{animation:none!important}
+</style>
+</head>
+<body>
+<div id="libro"></div>
+<script src="assets/art.js"></script>
+<script src="assets/datos.js"></script>
+<script>
+  const libro = document.getElementById('libro');
+  const pad = (n) => String(n).padStart(2, '0');
+
+  // Portada
+  libro.innerHTML = `
+    <section class="hoja">
+      <span class="cinta">21 de septiembre</span>
+      <h1>Feliz cumpleaños</h1>
+      <div class="sub">${CONFIG.nombre}</div>
+      <div class="portada-art">${ART.scenes.hero()}</div>
+      <p class="intro">Dos años, mil aventuras y unas cuantas tormentas.<br>
+        Esta es nuestra historia, contada en dibujitos.</p>
+    </section>`;
+
+  // Capítulos
+  libro.innerHTML += CAPITULOS.map((c, i) => `
+    <section class="hoja${c.oscuro ? ' oscuro' : ''}">
+      <div class="lienzo">${ART.scenes[c.escena]()}</div>
+      <div class="pie">
+        <div class="num">${pad(i + 1)}</div>
+        <h2>${c.titulo}</h2>
+        <p>${c.texto}</p>
+      </div>
+    </section>`).join('');
+
+  // Carta final
+  libro.innerHTML += `
+    <section class="hoja">
+      <div class="carta">
+        <h2>Una última cosa 🌻</h2>
+        <p>No vamos a estar juntos el día exacto, y ya está. El 21 es un número en la pared;
+           lo nuestro no cabe en un calendario. Nos vemos poquito después, y eso es lo de menos.</p>
+        <p>Lo que importa son los detalles: el vapor de las termales, los masajes a media tarde,
+           los papelitos escritos a mano, Quito encendido desde el mirador, y también
+           todas las veces que supimos volver.</p>
+        <p class="firma">Feliz cumpleaños, mi ardillita. Te amo.</p>
+        <div class="flores">🌻 🌹 🌻</div>
+      </div>
+    </section>`;
+
+  document.title = 'Nuestra historia';
+</script>
+</body>
+</html>
