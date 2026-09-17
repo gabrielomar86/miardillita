@@ -455,54 +455,80 @@ const ART = (() => {
   scenes.ardillita = () => {
     const [g, d] = skyGrad('#FDE9D2', '#FFF8EE');
     const m = id('mask');
-    let petals = '';
-    for (let i = 0; i < 520; i++)
-      petals += petal(rnd(40, 760), rnd(60, 250), rnd(.55, 1.1), rnd(0, 180),
-        Math.random() > .45 ? C.red : C.redD, rnd(.75, 1));
-    return frame(`${d}
-      <mask id="${m}">
-        <rect width="800" height="460" fill="#000"/>
-        <text x="400" y="180" text-anchor="middle" font-family="Quicksand, Nunito, Verdana, sans-serif"
-          font-size="120" font-weight="700" fill="#fff">Mi</text>
-        <text x="400" y="292" text-anchor="middle" font-family="Quicksand, Nunito, Verdana, sans-serif"
-          font-size="112" font-weight="700" fill="#fff">Ardillita</text>
-      </mask>`, `
+    const rojos = ['#D62828', '#B81E1E', '#9E1B1B', '#E8453F', '#C22525', '#A81C1C'];
+    // Muchos pétalos, bien apretados, para que las letras se lean sólidas
+    let petalos = '';
+    for (let i = 0; i < 1300; i++)
+      petalos += petal(rnd(20, 780), rnd(50, 330), rnd(.7, 1.35), rnd(0, 180),
+        rojos[(Math.random() * rojos.length) | 0], rnd(.85, 1));
+
+    const letras = (fill, extra = '') => `
+      <text x="400" y="176" text-anchor="middle" font-family="Quicksand, Nunito, Verdana, sans-serif"
+        font-size="122" font-weight="700" fill="${fill}" ${extra}>Mi</text>
+      <text x="400" y="292" text-anchor="middle" font-family="Quicksand, Nunito, Verdana, sans-serif"
+        font-size="114" font-weight="700" fill="${fill}" ${extra}>Ardillita</text>`;
+
+    return frame(`${d}<mask id="${m}"><rect width="800" height="460" fill="#000"/>${letras('#fff')}</mask>`, `
       <rect width="800" height="460" fill="url(#${g})"/>
-      ${[...Array(9)].map((_, i) => sunflower(20 + i * 98, 470, rnd(.75, 1.05), rnd(-8, 8))).join('')}
+      ${[...Array(9)].map((_, i) => sunflower(20 + i * 98, 476, rnd(.72, 1), rnd(-8, 8))).join('')}
+
+      <!-- sombra suave para despegar las letras del fondo -->
+      <g opacity=".16" transform="translate(5,7)">${letras('#7A3B22')}</g>
+
       <g mask="url(#${m})">
-        <rect width="800" height="460" fill="#F6D8D8" opacity=".35"/>${petals}
+        <rect width="800" height="460" fill="#C41F1F"/>
+        ${petalos}
       </g>
-      ${[...Array(18)].map(() => petal(rnd(20, 780), rnd(300, 450), rnd(.7, 1.3), rnd(0, 180), C.red, rnd(.4, .9))).join('')}
-      ${he({ x: 78, y: 320, s: .9, eyes: 'happy', arms: 'up' })}
-      ${she({ x: 626, y: 320, s: .9, flip: true, eyes: 'happy', arms: 'up' })}`);
+
+      <!-- pétalos sueltos alrededor, fuera de las letras -->
+      ${[...Array(26)].map(() => petal(rnd(20, 780), rnd(340, 452), rnd(.7, 1.4), rnd(0, 180), C.red, rnd(.45, .95))).join('')}
+      ${[...Array(10)].map(() => petal(rnd(20, 780), rnd(20, 60), rnd(.6, 1.1), rnd(0, 180), C.red, rnd(.3, .7))).join('')}
+
+      ${he({ x: 70, y: 330, s: .88, eyes: 'happy', arms: 'up' })}
+      ${she({ x: 632, y: 330, s: .88, flip: true, eyes: 'happy', arms: 'up' })}`);
   };
 
-  /* 10 — El 21 y el 25 */
+  /* 10 — Tu día y el nuestro (sin nombrar la segunda fecha) */
   scenes.calendario = () => {
     const [g, d] = skyGrad('#E8F1FB', '#FFF6EA');
-    const cal = (x, y, num, label, accent) => `
+    const hoja = (x, y, contenido, label, accent) => `
       <g transform="translate(${x},${y})">
         <rect x="-78" y="-96" width="156" height="192" rx="18" fill="#fff" stroke="#E3D6C4" stroke-width="3"/>
         <rect x="-78" y="-96" width="156" height="44" rx="18" fill="${accent}"/>
         <rect x="-78" y="-70" width="156" height="18" fill="${accent}"/>
         <text x="0" y="-64" text-anchor="middle" font-family="Quicksand, Nunito, Verdana, sans-serif"
           font-size="22" font-weight="700" fill="#fff">SEP</text>
-        <text x="0" y="34" text-anchor="middle" font-family="Quicksand, Nunito, Verdana, sans-serif"
-          font-size="86" font-weight="700" fill="#4A2C1A">${num}</text>
+        ${contenido}
         <text x="0" y="72" text-anchor="middle" font-family="Quicksand, Nunito, Verdana, sans-serif"
           font-size="20" fill="#8A6A4E">${label}</text>
         <circle cx="-40" cy="-100" r="7" fill="#C9B79E"/><circle cx="40" cy="-100" r="7" fill="#C9B79E"/>
       </g>`;
-    let path = '';
+
+    const numero = `<text x="0" y="34" text-anchor="middle" font-family="Quicksand, Nunito, Verdana, sans-serif"
+      font-size="86" font-weight="700" fill="#4A2C1A">21</text>`;
+
+    // La segunda hoja no lleva número: lleva un corazón marcado a mano
+    const marcado = `
+      <g transform="translate(0,4)">
+        <path d="M-52,-26 q52,-16 104,4" stroke="#F0C7C7" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M-52,36 q52,14 104,-6" stroke="#F0C7C7" stroke-width="3" fill="none" stroke-linecap="round"/>
+        ${heart(0, 8, 3.2, '#D62828', .95)}
+        <path d="M-46,6 a46,34 0 1 0 92,-6 a46,34 0 1 0 -92,6" stroke="#D62828" stroke-width="3.5"
+          fill="none" opacity=".55" stroke-linecap="round"/>
+      </g>`;
+
+    let camino = '';
     for (let i = 0; i < 9; i++)
-      path += heart(300 + i * 26, 220 - Math.sin(i / 8 * Math.PI) * 60, .9 + (i % 3) * .25, i % 2 ? C.red : '#F2708C', .85);
+      camino += heart(300 + i * 26, 220 - Math.sin(i / 8 * Math.PI) * 60, .9 + (i % 3) * .25,
+        i % 2 ? C.red : '#F2708C', .85);
+
     return frame(d, `
       <rect width="800" height="460" fill="url(#${g})"/>
       ${cloud(120, 66, .9, .8)}${cloud(680, 74, .9, .8)}
       ${ground('#8FC46F', '#75AC59')}
-      ${cal(190, 200, '21', 'tu día', C.sun)}
-      ${cal(610, 200, '25', 'nuestro día', C.red)}
-      ${path}
+      ${hoja(190, 200, numero, 'tu día', C.sun)}
+      ${hoja(610, 200, marcado, 'el nuestro', C.red)}
+      ${camino}
       ${he({ x: 470, y: 320, s: .82, eyes: 'happy', arms: 'up' })}
       ${she({ x: 246, y: 320, s: .82, flip: true, eyes: 'happy', arms: 'up' })}
       ${sunflower(48, 458, .85)}${redFlower(760, 452, .8)}`);

@@ -60,8 +60,8 @@ const CAPITULOS = [
   { escena:'ardillita', titulo:'Mi ardillita',
     texto:'Recogí todos los pétalos rojos del camino y, al soltarlos, solo se formaron dos palabras.' },
 
-  { escena:'calendario', titulo:'El 21 y el 25',
-    texto:'Tu cumpleaños es el 21, pero nos vemos el 25. Y está bien: la fecha es apenas un número en una pared. Lo que cuenta son los detalles, las ganas y todo lo que ya te estoy guardando.' },
+  { escena:'calendario', titulo:'Tu día y el nuestro',
+    texto:'Tu cumpleaños es el 21, y nuestro abrazo llega poquito después. Y está bien: la fecha es apenas un número en una pared. Lo que cuenta son los detalles, las ganas y todo lo que ya te estoy guardando.' },
 
   { escena:'pastel', titulo:'Feliz cumpleaños',
     texto:'Dos años, mil aventuras y un montón de girasoles. Gracias por todo esto. Te amo, ardillita.' },
@@ -222,12 +222,13 @@ function montarFotos() {
 function actualizarContadores() {
   const ahora = new Date();
 
-  // Tiempo juntos
+  // Tiempo juntos (redondeado: son cuentas aproximadas, no cronómetro)
   const ani = new Date(CONFIG.aniversario + 'T00:00:00');
   const dias = Math.floor((ahora - ani) / 86400000);
+  const diasAprox = Math.round(dias / 10) * 10;
   const meses = mesesEntre(ani, ahora);
-  $('#t-dias').textContent = dias.toLocaleString('es-EC');
-  $('#t-meses').textContent = meses;
+  $('#t-dias').textContent = '~' + diasAprox.toLocaleString('es-EC');
+  $('#t-meses').textContent = '~' + meses;
 
   // Cuenta regresiva al reencuentro
   const re = new Date(CONFIG.reencuentro).getTime();
