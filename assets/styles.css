@@ -1,0 +1,200 @@
+/* ===========================================================
+   Ardillita — estilos
+   =========================================================== */
+
+:root{
+  --crema:#FFF8F0;
+  --crema-2:#FFEFE0;
+  --tinta:#4A2C1A;
+  --tinta-2:#8A6A4E;
+  --rojo:#D62828;
+  --rojo-2:#9E1B1B;
+  --sol:#F6B800;
+  --sol-2:#FFD447;
+  --verde:#5C8A4A;
+  --sombra:0 18px 44px rgba(122,82,48,.16);
+  --radio:26px;
+  --fuente:'Quicksand','Nunito',ui-rounded,-apple-system,'Segoe UI',system-ui,sans-serif;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:var(--fuente);
+  color:var(--tinta);
+  background:
+    radial-gradient(1100px 600px at 12% -6%, #FFE7CE 0%, transparent 60%),
+    radial-gradient(900px 500px at 92% 4%, #FDE1E1 0%, transparent 55%),
+    var(--crema);
+  overflow-x:hidden;
+}
+img,svg{max-width:100%}
+[hidden]{display:none!important}
+
+/* ---------- Capa de pétalos ---------- */
+#petalos{position:fixed;inset:0;pointer-events:none;z-index:5;overflow:hidden}
+.petalo{position:absolute;top:-40px;will-change:transform,opacity;animation:caer linear infinite}
+@keyframes caer{
+  0%{transform:translate3d(0,-40px,0) rotate(0deg);opacity:0}
+  8%{opacity:.95}
+  100%{transform:translate3d(var(--dx,60px),105vh,0) rotate(720deg);opacity:0}
+}
+
+/* ---------- Candado ---------- */
+#candado{
+  position:fixed;inset:0;z-index:40;display:grid;place-items:center;
+  background:
+    radial-gradient(900px 520px at 50% 0%, #FFE7CE 0%, transparent 62%),
+    var(--crema);
+  text-align:center;padding:28px;
+}
+#candado .caja{max-width:560px;width:100%}
+#candado svg{width:min(330px,74vw);height:auto;margin:0 auto -6px}
+#candado h1{font-size:clamp(28px,6vw,44px);margin:.2em 0 .1em;line-height:1.15}
+#candado p{color:var(--tinta-2);font-size:clamp(15px,3.6vw,18px);margin:.4em 0 1.4em}
+.reloj{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.reloj .u{
+  background:#fff;border-radius:20px;padding:14px 8px;min-width:78px;
+  box-shadow:var(--sombra);border:2px solid #FFE3C8;
+}
+.reloj .n{font-size:clamp(26px,7vw,38px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.reloj .l{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-2);margin-top:6px}
+
+/* ---------- Hero ---------- */
+.hero{
+  min-height:100svh;display:grid;place-items:center;text-align:center;
+  padding:clamp(24px,6vw,64px) 18px 40px;position:relative;
+}
+.hero .contenido{max-width:900px;width:100%}
+.cinta{
+  display:inline-block;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--rojo-2);background:#FFE7E1;border-radius:999px;padding:8px 18px;font-weight:700;
+}
+.hero h1{
+  font-size:clamp(38px,10vw,86px);line-height:1.02;margin:.24em 0 .1em;font-weight:700;
+  background:linear-gradient(120deg,var(--rojo) 0%,#E3721F 48%,var(--sol) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero h2{
+  font-size:clamp(20px,5vw,34px);margin:0 0 .5em;color:var(--tinta);font-weight:700;
+}
+.hero p{font-size:clamp(15px,3.8vw,19px);color:var(--tinta-2);max-width:56ch;margin:0 auto}
+.hero-art{max-width:760px;margin:6px auto -10px}
+.bajar{
+  margin-top:26px;display:inline-flex;align-items:center;gap:10px;
+  color:var(--tinta-2);font-size:14px;text-decoration:none;
+}
+.bajar .flecha{
+  width:34px;height:34px;border-radius:50%;background:#fff;box-shadow:var(--sombra);
+  display:grid;place-items:center;animation:bota 1.8s ease-in-out infinite;
+}
+@keyframes bota{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ---------- Contadores ---------- */
+.tarjetas{
+  display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+  padding:0 18px 10px;max-width:980px;margin:0 auto 10px;
+}
+.tarjeta{
+  background:#fff;border:2px solid #FFE3C8;border-radius:22px;padding:18px 20px;
+  box-shadow:var(--sombra);min-width:150px;flex:1 1 180px;max-width:260px;text-align:center;
+}
+.tarjeta .big{font-size:clamp(26px,6vw,36px);font-weight:700;color:var(--rojo);font-variant-numeric:tabular-nums}
+.tarjeta .cap{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-2);margin-top:6px}
+
+/* ---------- Historia ---------- */
+.historia{max-width:1000px;margin:0 auto;padding:clamp(20px,5vw,48px) 18px 10px}
+.titulo-seccion{text-align:center;margin:0 0 clamp(18px,4vw,34px)}
+.titulo-seccion h3{font-size:clamp(24px,6vw,38px);margin:0 0 .25em}
+.titulo-seccion p{color:var(--tinta-2);margin:0;font-size:clamp(14px,3.6vw,17px)}
+
+.capitulo{
+  position:relative;background:#fff;border-radius:var(--radio);box-shadow:var(--sombra);
+  border:2px solid #FFEBD8;overflow:hidden;margin:0 0 clamp(20px,4vw,34px);
+  opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1);
+}
+.capitulo.visible{opacity:1;transform:none}
+.capitulo .lienzo{background:linear-gradient(180deg,#FFF6EA,#FFF);line-height:0}
+.capitulo .lienzo svg{width:100%;height:auto;display:block}
+.capitulo .texto{padding:clamp(18px,4vw,30px) clamp(18px,5vw,36px) clamp(24px,5vw,34px)}
+.capitulo h4{font-size:clamp(20px,5vw,28px);margin:0 0 .35em}
+.capitulo p{margin:0;font-size:clamp(15px,3.9vw,18.5px);line-height:1.65;color:var(--tinta-2);max-width:62ch}
+.num{
+  position:absolute;top:14px;left:14px;z-index:2;
+  background:rgba(255,255,255,.92);color:var(--rojo);font-weight:700;
+  border-radius:999px;padding:6px 16px;font-size:15px;letter-spacing:.06em;
+  box-shadow:0 6px 18px rgba(122,82,48,.18);backdrop-filter:blur(4px);
+}
+.capitulo.oscuro{background:#3E4550;border-color:#2E333B}
+.capitulo.oscuro .lienzo{background:#3E4550}
+.capitulo.oscuro h4{color:#FFE9C9}
+.capitulo.oscuro p{color:#C9D2DA}
+.capitulo.oscuro .num{background:rgba(62,69,80,.9);color:#FFD447}
+
+/* ---------- Carta final ---------- */
+.carta{
+  max-width:760px;margin:clamp(24px,6vw,56px) auto;padding:clamp(26px,6vw,46px);
+  background:linear-gradient(180deg,#FFFDF8,#FFF4E6);
+  border:2px solid #FFE3C8;border-radius:var(--radio);box-shadow:var(--sombra);text-align:center;
+}
+.carta h3{font-size:clamp(24px,6vw,36px);margin:0 0 .5em}
+.carta p{font-size:clamp(15px,4vw,19px);line-height:1.75;color:var(--tinta-2);margin:0 0 1em}
+.carta .firma{font-size:clamp(17px,4.4vw,22px);color:var(--rojo);font-weight:700;margin-top:.6em}
+.boton{
+  display:inline-block;margin-top:18px;background:var(--rojo);color:#fff;border:none;
+  border-radius:999px;padding:14px 30px;font-family:var(--fuente);font-weight:700;font-size:16px;
+  cursor:pointer;box-shadow:0 12px 26px rgba(214,40,40,.3);transition:transform .2s ease;
+}
+.boton:hover{transform:translateY(-2px)}
+.boton:active{transform:translateY(1px)}
+
+footer{text-align:center;padding:26px 18px 60px;color:var(--tinta-2);font-size:13px}
+footer .flores{display:flex;gap:6px;justify-content:center;margin-bottom:10px;font-size:20px}
+
+/* ---------- Animaciones SVG ---------- */
+.float{animation:flota 4.4s ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes flota{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.pulse{animation:late 1.5s ease-in-out infinite;transform-origin:center}
+@keyframes late{0%,100%{transform:scale(1)}45%{transform:scale(1.14)}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .capitulo{opacity:1;transform:none}
+}
+
+@media (max-width:640px){
+  .tarjeta{flex:1 1 140px;min-width:130px;padding:14px 12px}
+  .capitulo .texto{padding:18px 18px 24px}
+}
+
+/* ---------- Galería de fotos ---------- */
+.fotos{max-width:1000px;margin:0 auto;padding:clamp(20px,5vw,40px) 18px 0}
+.destacada{
+  position:relative;margin:0 auto clamp(18px,4vw,28px);max-width:560px;
+  border-radius:var(--radio);overflow:hidden;box-shadow:var(--sombra);
+  border:6px solid #fff;background:#FFF1E2;line-height:0;
+  transform:rotate(-1.2deg);
+}
+.destacada img{width:100%;height:auto;display:block}
+.galeria{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:14px;padding-bottom:6px;
+}
+.galeria figure{
+  margin:0;background:#fff;border:6px solid #fff;border-radius:20px;overflow:hidden;
+  box-shadow:var(--sombra);line-height:0;transition:transform .3s ease;
+}
+.galeria figure:nth-child(odd){transform:rotate(-1deg)}
+.galeria figure:nth-child(even){transform:rotate(1deg)}
+.galeria figure:hover{transform:rotate(0) scale(1.02)}
+.galeria img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/5;display:block}
+#candado .nota{margin:-14px 0 16px;font-size:13px;color:#B08A66;min-height:1em}
+
+/* ---------- Recorrido guiado ---------- */
+.bajar{cursor:pointer;border:none;background:none}
+.destacada-paso{
+  box-shadow:0 0 0 4px rgba(214,40,40,.28), 0 26px 60px rgba(122,82,48,.24)!important;
+  transform:scale(1.012)!important;transition:box-shadow .5s ease,transform .5s ease;
+}
+body.en-recorrido{cursor:progress}

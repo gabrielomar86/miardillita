@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feliz cumpleaños, Ardillita 🌻</title>
+<meta name="description" content="Una pequeña historia de dos ardillas, dos años y un montón de girasoles.">
+<meta name="theme-color" content="#FFF8F0">
+<link rel="canonical" href="https://miardillita.org/">
+
+<!-- Vista previa al compartir el link (WhatsApp, Instagram, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://miardillita.org/">
+<meta property="og:title" content="Feliz cumpleaños, Ardillita 🌻">
+<meta property="og:description" content="Dos años, mil aventuras y unas cuantas tormentas. Ábrelo el 21.">
+<meta property="og:image" content="https://miardillita.org/assets/fotos/ardillitas.jpg">
+<meta property="og:locale" content="es_EC">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌻</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<!-- Pétalos y corazones -->
+<div id="petalos" aria-hidden="true"></div>
+
+<!-- ============ CANDADO: se abre el 21 a las 00:00 ============ -->
+<section id="candado">
+  <div class="caja">
+    <div id="candado-art" aria-hidden="true"></div>
+    <h1 id="candado-titulo">Falta poquito</h1>
+    <p>Esto se abre solito el <strong>21 de septiembre a las 00:00</strong>.<br>Ni un minuto antes. 🌻</p>
+    <p id="candado-nota" class="nota"></p>
+    <div class="reloj">
+      <div class="u"><div class="n" id="c-d">0</div><div class="l">días</div></div>
+      <div class="u"><div class="n" id="c-h">00</div><div class="l">horas</div></div>
+      <div class="u"><div class="n" id="c-m">00</div><div class="l">min</div></div>
+      <div class="u"><div class="n" id="c-s">00</div><div class="l">seg</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="contenido">
+    <span class="cinta">21 de septiembre</span>
+    <h1>Feliz cumpleaños</h1>
+    <h2 id="nombre-hero">Ardillita</h2>
+    <p>Dos años, mil aventuras y unas cuantas tormentas.<br>Esta es nuestra historia, contada en dibujitos.</p>
+    <div class="hero-art" id="hero-art" aria-hidden="true"></div>
+
+    <div class="tarjetas">
+      <div class="tarjeta"><div class="big" id="t-dias">–</div><div class="cap">días juntos</div></div>
+      <div class="tarjeta"><div class="big" id="t-meses">–</div><div class="cap">meses</div></div>
+      <div class="tarjeta" id="tarjeta-reencuentro" hidden>
+        <div class="big" id="t-reencuentro">–</div>
+        <div class="cap" id="t-reencuentro-cap">para vernos</div>
+      </div>
+      <div class="tarjeta" id="tarjeta-edad" hidden><div class="big" id="t-edad">–</div><div class="cap">años</div></div>
+    </div>
+
+    <a class="bajar" id="bajar" href="#historia">
+      <span class="flecha" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D62828" stroke-width="3"
+             stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </span>
+      <span id="bajar-texto">Míralas una por una</span>
+    </a>
+  </div>
+</header>
+
+<!-- ============ FOTOS ============ -->
+<section class="fotos" id="fotos" hidden>
+  <div class="titulo-seccion">
+    <h3>Nosotros</h3>
+    <p>Porque hay abrazos que no se dibujan, se guardan.</p>
+  </div>
+  <div class="galeria" id="galeria"></div>
+</section>
+
+<!-- ============ HISTORIA ============ -->
+<main class="historia" id="historia">
+  <div class="titulo-seccion">
+    <h3>Nuestra historia, en capítulos</h3>
+    <p>Del 01 al 12. Sin spoilers.</p>
+  </div>
+  <div id="capitulos"></div>
+
+  <!-- ============ CARTA ============ -->
+  <section class="carta">
+    <h3>Una última cosa 🌻</h3>
+    <p>
+      No vamos a estar juntos el día exacto, y ya está. El 21 es un número en la pared;
+      lo nuestro no cabe en un calendario.
+    </p>
+    <p>
+      Lo que importa son los detalles: el vapor de las termales, los masajes a media tarde,
+      los papelitos escritos a mano, Quito encendido desde el mirador, y también
+      todas las veces que supimos volver.
+    </p>
+    <p class="firma">Feliz cumpleaños, mi ardillita. Te amo.</p>
+    <button class="boton" id="boton-confeti">Lánzame pétalos 🌹</button>
+  </section>
+</main>
+
+<footer>
+  <div class="flores" aria-hidden="true">🌻 🌹 🌻 🌹 🌻</div>
+  Hecho a mano, con paciencia y con ganas.
+</footer>
+
+<script src="assets/art.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
