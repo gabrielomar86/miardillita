@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Visitas</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<style>
+  :root{--fondo:#12141A;--panel:#1B1E27;--borde:#2A2F3C;--texto:#E8EAF0;
+        --suave:#9BA3B4;--acento:#E5484D;--ok:#4FB477;color-scheme:dark}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--fondo);color:var(--texto);
+       font:14px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;padding:24px 16px 60px}
+  .caja{max-width:1000px;margin:0 auto}
+  h1{font-size:20px;margin:0 0 4px;font-family:system-ui,sans-serif}
+  .sub{color:var(--suave);font-size:13px;margin:0 0 24px}
+
+  /* puerta */
+  #puerta{max-width:340px;margin:12vh auto;text-align:center}
+  #puerta input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--borde);
+    background:var(--panel);color:var(--texto);font-size:15px;font-family:inherit;margin:14px 0 10px}
+  #puerta button{width:100%;padding:12px;border-radius:10px;border:none;background:var(--acento);
+    color:#fff;font-weight:700;cursor:pointer;font-size:15px}
+  #puerta .mal{color:var(--acento);font-size:13px;min-height:18px;margin-top:10px}
+
+  .fichas{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
+  .ficha{background:var(--panel);border:1px solid var(--borde);border-radius:12px;padding:14px}
+  .ficha .n{font-size:26px;font-weight:700}
+  .ficha .l{color:var(--suave);font-size:11px;text-transform:uppercase;letter-spacing:.09em;margin-top:4px}
+
+  .envoltura{overflow-x:auto;border:1px solid var(--borde);border-radius:12px;background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:820px}
+  th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--borde);white-space:nowrap}
+  th{color:var(--suave);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.07em;
+     position:sticky;top:0;background:var(--panel)}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(255,255,255,.03)}
+  .ip{color:var(--ok)}
+  .aviso{background:#241A1C;border:1px solid #4A2B30;border-radius:12px;padding:16px;
+    color:#F0C3C6;font-family:system-ui,sans-serif;line-height:1.6}
+  .aviso code{background:rgba(0,0,0,.35);padding:2px 6px;border-radius:5px}
+  .barra{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+  .barra button{background:var(--panel);border:1px solid var(--borde);color:var(--texto);
+    border-radius:9px;padding:8px 14px;cursor:pointer;font-family:inherit;font-size:12.5px}
+  .barra button:hover{border-color:var(--suave)}
+</style>
+</head>
+<body>
+
+<div id="puerta">
+  <h1>Visitas</h1>
+  <p class="sub">Esta página no es para ella.</p>
+  <input type="password" id="clave" placeholder="contraseña" autocomplete="off">
+  <button id="entrar">Entrar</button>
+  <div class="mal" id="mal"></div>
+</div>
+
+<div class="caja" id="panel" hidden>
+  <h1>Visitas a miardillita.org</h1>
+  <p class="sub" id="resumen">Cargando…</p>
+
+  <div class="barra">
+    <button id="recargar">Recargar</button>
+    <button id="csv">Bajar CSV</button>
+  </div>
+
+  <div id="fichas" class="fichas"></div>
+  <div id="contenido"></div>
+</div>
+
+<script src="../assets/visitas.js"></script>
+<script src="../assets/contador.js"></script>
+</body>
+</html>
