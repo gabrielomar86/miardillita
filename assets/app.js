@@ -313,7 +313,6 @@ function detenerRecorrido() {
    Arranque
    ----------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
-  registrarVisita();        // no hace nada mientras el backend esté en 'ninguno'
   lluviaDePetalos();
   corazonesAlTocar();
   iniciarCandado(construir);
