@@ -17,7 +17,7 @@ const CONFIG = {
 
   // 🧪 PRUEBA: ignora la fecha real y hace que el candado se abra en X segundos.
   //    En 0 manda la fecha real de arriba. Para revisarla igual, abre  ?preview=1
-  demoSegundos: 5,
+  demoSegundos: 0,
 
   // 📸 Fotos. La primera sale grande arriba; el resto, en la galería.
   // Copia tus imágenes a  assets/fotos/  y escribe aquí sus nombres.
