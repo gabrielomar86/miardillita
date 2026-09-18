@@ -15,6 +15,10 @@ const CONFIG = {
   nacimiento:   '',                          // opcional: AAAA-MM-DD para mostrar la edad
   edad:         26,                          // el número que forman los pétalos al abrirse la página
 
+  // Foto de la pantalla del contador. Si el archivo no existe,
+  // sale el girasol solo, como antes.
+  fotoCandado:  'assets/fotos/ardillita-timer.jpg',
+
   // 🧪 PRUEBA: ignora la fecha real y hace que el candado se abra en X segundos.
   //    En 0 manda la fecha real de arriba. Para revisarla igual, abre  ?preview=1
   demoSegundos: 0,

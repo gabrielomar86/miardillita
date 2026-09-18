@@ -127,6 +127,7 @@ function iniciarCandado(onAbrir) {
 
   $('#candado-titulo').textContent = `Falta poquito, ${CONFIG.nombre}`;
   $('#candado-art').innerHTML = ART.scenes.candado();
+  montarFotoCandado();
 
   const tick = () => {
     const resta = meta - Date.now();
@@ -138,6 +139,24 @@ function iniciarCandado(onAbrir) {
   };
   tick();
   const t = setInterval(tick, 1000);
+}
+
+/* La foto del contador: si carga, manda ella y el girasol
+   se hace chiquito en una esquina del marco */
+function montarFotoCandado() {
+  const src = CONFIG.fotoCandado;
+  if (!src) return;
+
+  const img = new Image();
+  img.alt = CONFIG.nombre;
+  img.onload = () => {
+    const caja = $('#candado-foto');
+    if (!caja) return;
+    caja.appendChild(img);
+    caja.appendChild($('#candado-art'));       // el girasol pasa a ser adorno
+    $('#candado').classList.add('con-foto');
+  };
+  img.src = src;
 }
 
 /* -----------------------------------------------------------
