@@ -234,7 +234,7 @@ a.boton,button.boton{text-decoration:none;display:inline-flex;align-items:center
 }
 #candado.con-foto #candado-foto img{
   position:relative;z-index:1;
-  width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center 28%;
+  width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center;
   border-radius:28px;border:7px solid #fff;
   box-shadow:0 22px 50px rgba(122,82,48,.26);
   transform:rotate(-1.4deg);

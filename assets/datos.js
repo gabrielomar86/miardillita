@@ -17,7 +17,7 @@ const CONFIG = {
 
   // Foto de la pantalla del contador. Si el archivo no existe,
   // sale el girasol solo, como antes.
-  fotoCandado:  'assets/fotos/ardillita-timer.jpg',
+  fotoCandado:  'assets/fotos/ardillita-timer.png',
 
   // 🧪 PRUEBA: ignora la fecha real y hace que el candado se abra en X segundos.
   //    En 0 manda la fecha real de arriba. Para revisarla igual, abre  ?preview=1
