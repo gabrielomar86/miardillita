@@ -61,6 +61,34 @@ img,svg{max-width:100%}
 .reloj .n{font-size:clamp(26px,7vw,38px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
 .reloj .l{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-2);margin-top:6px}
 
+/* ---------- Bienvenida (el corazón que abre la sorpresa) ---------- */
+#sorpresa{
+  position:fixed;inset:0;z-index:45;display:grid;place-items:center;
+  background:
+    radial-gradient(900px 560px at 50% 0%, #FFE2D6 0%, transparent 64%),
+    var(--crema);
+  text-align:center;padding:28px 20px;
+}
+#sorpresa .caja{max-width:620px;width:100%}
+#sorpresa h1{
+  font-size:clamp(26px,6.4vw,44px);margin:0 0 .18em;line-height:1.14;font-weight:700;
+  background:linear-gradient(120deg,var(--rojo) 0%,#E3721F 52%,var(--sol) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+#sorpresa p{color:var(--tinta-2);font-size:clamp(15px,3.6vw,18px);margin:.3em 0 .6em}
+#sorpresa svg{width:min(420px,84vw);height:auto;margin:0 auto}
+#sorpresa .pista{font-size:13px;letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin-top:2px}
+.corazon-abrir{cursor:pointer;outline:none}
+.corazon-abrir .latido{
+  transform-origin:255px 126px;
+  animation:latir 1.5s ease-in-out infinite;
+}
+.corazon-abrir:hover .latido,
+.corazon-abrir:focus-visible .latido{animation-duration:.8s}
+.corazon-abrir:focus-visible .latido > circle:first-child{opacity:.95}
+@keyframes latir{0%,100%{transform:scale(1)}18%{transform:scale(1.1)}36%{transform:scale(1)}54%{transform:scale(1.07)}}
+#sorpresa.abriendo .caja{transition:transform .7s ease,opacity .7s ease;transform:scale(1.14);opacity:0}
+
 /* ---------- Hero ---------- */
 .hero{
   min-height:100svh;display:grid;place-items:center;text-align:center;

@@ -160,6 +160,35 @@ function montarFotoCandado() {
 }
 
 /* -----------------------------------------------------------
+   Bienvenida: se queda puesta hasta que toque el corazón.
+   Si recarga la página sin tocarlo, la vuelve a ver.
+   ----------------------------------------------------------- */
+function mostrarSorpresa(onAbrir) {
+  const pantalla = $('#sorpresa');
+  if (!pantalla) { onAbrir(); return; }
+
+  $('#sorpresa-art').innerHTML = ART.scenes.sorpresa();
+  pantalla.hidden = false;
+
+  const corazon = $('#corazon-abrir');
+  let abierto = false;
+
+  const abrir = () => {
+    if (abierto) return;
+    abierto = true;
+    pantalla.classList.add('abriendo');
+    pantalla.style.transition = 'opacity .7s ease';
+    pantalla.style.opacity = '0';
+    setTimeout(() => { pantalla.remove(); onAbrir(); }, 700);
+  };
+
+  corazon.addEventListener('click', abrir);
+  corazon.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(); }
+  });
+}
+
+/* -----------------------------------------------------------
    Construcción de la página
    ----------------------------------------------------------- */
 function construir() {
@@ -315,7 +344,7 @@ function detenerRecorrido() {
 document.addEventListener('DOMContentLoaded', () => {
   lluviaDePetalos();
   corazonesAlTocar();
-  iniciarCandado(construir);
+  iniciarCandado(() => mostrarSorpresa(construir));
 
   $('#bajar')?.addEventListener('click', (e) => { e.preventDefault(); alternarRecorrido(); });
 

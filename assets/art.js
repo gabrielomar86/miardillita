@@ -188,6 +188,9 @@ const ART = (() => {
       up:   `<ellipse cx="86" cy="58" rx="7" ry="13" fill="${fur}" transform="rotate(42 86 58)"/>`,
       hug:  `<ellipse cx="88" cy="76" rx="13" ry="7" fill="${fur}" transform="rotate(-8 88 76)"/>`,
       side: `<ellipse cx="88" cy="72" rx="12" ry="7" fill="${fur}" transform="rotate(8 88 72)"/>`,
+      point:`<ellipse cx="94" cy="64" rx="15" ry="6.4" fill="${fur}" transform="rotate(-22 94 64)"/>
+             <circle cx="107" cy="58" r="5.6" fill="${furL}"/>
+             <ellipse cx="112" cy="55.5" rx="4.4" ry="2.6" fill="${furL}" transform="rotate(-22 112 55.5)"/>`,
     }[arms];
 
     const outfitSVG = { tee: teeMetal(), dress: dressBeach(), towel: towel(), none: '' }[outfit] || '';
@@ -785,6 +788,33 @@ const ART = (() => {
         <rect x="-27" y="-7" width="54" height="44" rx="11" fill="#F3E2C8"/>
         <rect x="-27" y="-7" width="54" height="13" rx="6" fill="#FFF1DC"/>
         ${heart(0, 18, 1.35, '#D62828', .95)}
+      </g>
+    </svg>`;
+  };
+
+  /* Pantalla de bienvenida: la ardilla señalando el corazón que hay que tocar */
+  scenes.sorpresa = () => {
+    let sueltos = '';
+    for (let i = 0; i < 9; i++) {
+      const hx = [40, 96, 150, 206, 262, 312, 70, 232, 300][i];
+      const hy = [46, 26, 52, 22, 40, 66, 96, 88, 118][i];
+      sueltos += `<g class="float" style="--d:${(i * 0.45).toFixed(2)}s" opacity=".5">
+        ${heart(hx, hy, 0.9 + (i % 3) * 0.35, i % 2 ? C.red : '#F0928F', .8)}</g>`;
+    }
+    return `<svg class="scene-svg" viewBox="0 0 360 300" role="img" xmlns="http://www.w3.org/2000/svg">
+      ${sueltos}
+      ${he({ x: 30, y: 160, s: 1.05, eyes: 'happy', arms: 'point' })}
+      <path d="M170,208 C190,202 202,190 212,178" stroke="${C.redD}" stroke-width="3"
+        fill="none" stroke-linecap="round" stroke-dasharray="2 10" opacity=".55"/>
+      <g id="corazon-abrir" class="corazon-abrir" role="button" tabindex="0"
+         aria-label="Abrir la sorpresa" style="cursor:pointer">
+        <circle cx="255" cy="126" r="92" fill="transparent"/>
+        <g class="latido">
+          <circle cx="255" cy="126" r="78" fill="#FFD9D2" opacity=".5"/>
+          ${heart(255, 148, 7.4, C.redD, 1)}
+          ${heart(255, 145, 6.8, C.red, 1)}
+          <ellipse cx="240" cy="126" rx="9" ry="6" fill="#fff" opacity=".45" transform="rotate(-28 240 126)"/>
+        </g>
       </g>
     </svg>`;
   };
