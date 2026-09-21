@@ -122,9 +122,6 @@ function iniciarCandado(onAbrir) {
 
   if (preview || Date.now() >= meta) { candado.remove(); onAbrir(); return; }
 
-  if (demo) $('#candado-nota').innerHTML =
-    '<em>Modo prueba: se abre en unos segundos.</em>';
-
   $('#candado-titulo').textContent = `Falta poquito, ${CONFIG.nombre}`;
   $('#candado-art').innerHTML = ART.scenes.candado();
   montarFotoCandado();
