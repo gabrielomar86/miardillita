@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chat de ardillitas 🐿️</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#FFF8F0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐿️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="chat.css">
+</head>
+<body>
+
+<!-- ====== Entrada: quién eres y en qué sala ====== -->
+<section id="entrada">
+  <div class="tarjeta">
+    <div id="entrada-art" aria-hidden="true"></div>
+    <h1>Chat de ardillitas</h1>
+    <p class="sub">Lo que se escribe aquí no se guarda. Al cerrar, se va.</p>
+
+    <form id="forma-entrada" autocomplete="off">
+      <label for="campo-nombre">¿Cómo te llamas?</label>
+      <input id="campo-nombre" type="text" maxlength="18" placeholder="Tu nombre" required>
+
+      <span class="etq">¿Cómo te dibujamos?</span>
+      <div class="avatares" role="radiogroup" aria-label="Elige tu ardilla">
+        <button type="button" class="av" data-av="ella" role="radio" aria-checked="false">
+          <span class="av-art"></span><span class="av-txt">Ardillita</span>
+        </button>
+        <button type="button" class="av" data-av="el" role="radio" aria-checked="false">
+          <span class="av-art"></span><span class="av-txt">Ardillito</span>
+        </button>
+      </div>
+
+      <button type="submit" class="btn" id="btn-entrar">Entrar al chat</button>
+      <p class="modo" id="modo-aviso"></p>
+    </form>
+  </div>
+</section>
+
+<!-- ====== El chat ====== -->
+<section id="sala" hidden>
+  <header class="barra">
+    <div class="quien">
+      <div id="mi-av" class="mini" aria-hidden="true"></div>
+      <div class="quien-txt">
+        <strong id="mi-nombre">—</strong>
+        <span id="estado-sala">conectando…</span>
+      </div>
+    </div>
+    <div class="conectados" id="conectados" aria-live="polite"></div>
+    <button type="button" id="btn-salir" class="salir" title="Salir del chat">Salir</button>
+  </header>
+
+  <div id="mensajes" role="log" aria-live="polite" aria-relevant="additions"></div>
+
+  <div id="escribiendo" class="escribiendo" aria-live="polite"></div>
+
+  <form id="forma-msg" autocomplete="off">
+    <div class="emojis" aria-label="Atajos">
+      <button type="button" data-e="🌻">🌻</button>
+      <button type="button" data-e="💗">💗</button>
+      <button type="button" data-e="🐿️">🐿️</button>
+      <button type="button" data-e="😂">😂</button>
+      <button type="button" data-e="🥺">🥺</button>
+    </div>
+    <div class="fila">
+      <input id="campo-msg" type="text" maxlength="500" placeholder="Escribe algo lindo…" required>
+      <button type="submit" class="enviar" aria-label="Enviar">➤</button>
+    </div>
+  </form>
+</section>
+
+<!-- ====== Sala llena / error ====== -->
+<section id="aviso" hidden>
+  <div class="tarjeta">
+    <div id="aviso-art" aria-hidden="true"></div>
+    <h1 id="aviso-titulo">Un momento</h1>
+    <p id="aviso-texto"></p>
+    <button type="button" class="btn" id="btn-reintentar">Intentar de nuevo</button>
+  </div>
+</section>
+
+<script src="../assets/art.js"></script>
+<script src="config.js"></script>
+<script src="chat.js"></script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+/* ===========================================================
+   chat/chat.css — estilos propios del chat.
+   No comparte nada con assets/styles.css a propósito, para que
+   ningún cambio de aquí pueda afectar la página principal.
+   =========================================================== */
+
+:root{
+  --crema:#FFF8F0;
+  --crema-2:#FFEFE0;
+  --tinta:#4A2C1A;
+  --tinta-2:#8A6A4E;
+  --rojo:#D62828;
+  --sol:#F6B800;
+  --verde:#5C8A4A;
+  --sombra:0 14px 34px rgba(122,82,48,.16);
+  --fuente:'Quicksand','Nunito',ui-rounded,-apple-system,'Segoe UI',system-ui,sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:var(--fuente);
+  color:var(--tinta);
+  background:
+    radial-gradient(1000px 560px at 14% -6%, #FFE7CE 0%, transparent 60%),
+    radial-gradient(860px 480px at 90% 2%, #FDE1E1 0%, transparent 55%),
+    var(--crema);
+}
+img,svg{max-width:100%}
+[hidden]{display:none!important}
+button{font-family:inherit}
+
+/* ---------- Pantallas de tarjeta (entrada y avisos) ---------- */
+#entrada,#aviso{min-height:100%;display:grid;place-items:center;padding:26px 18px}
+.tarjeta{
+  width:100%;max-width:440px;text-align:center;
+  background:#fff;border:2px solid #FFE3C8;border-radius:26px;
+  box-shadow:var(--sombra);padding:24px 22px 26px;
+}
+.tarjeta svg{width:min(150px,44vw);height:auto;margin:0 auto}
+#entrada-art svg{width:min(240px,68vw)}
+#aviso-art svg{width:min(140px,40vw)}
+.tarjeta h1{
+  font-size:clamp(23px,5.6vw,31px);margin:.25em 0 .12em;line-height:1.15;font-weight:700;
+  background:linear-gradient(120deg,var(--rojo) 0%,#E3721F 54%,var(--sol) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.tarjeta .sub,.tarjeta p{color:var(--tinta-2);font-size:15px;margin:.35em 0 1.1em;line-height:1.5}
+
+#forma-entrada{text-align:left}
+#forma-entrada label,.etq{
+  display:block;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--tinta-2);margin:0 0 6px 4px;
+}
+#campo-nombre{
+  width:100%;font:inherit;font-size:16px;color:var(--tinta);
+  padding:13px 16px;border:2px solid #FFE3C8;border-radius:16px;background:#FFFDFA;
+  outline:none;transition:border-color .2s;
+}
+#campo-nombre:focus{border-color:var(--sol)}
+.etq{margin-top:16px}
+
+.avatares{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.av{
+  border:2px solid #FFE3C8;background:#FFFDFA;border-radius:18px;
+  padding:8px 6px 10px;cursor:pointer;transition:border-color .2s,background .2s,transform .2s;
+}
+.av:hover{transform:translateY(-2px)}
+.av[aria-checked="true"]{border-color:var(--rojo);background:#FFF1EC}
+.av-art{display:block}
+.av-art svg{width:74px;height:auto;margin:0 auto}
+.av-txt{display:block;font-size:13.5px;font-weight:600;color:var(--tinta-2);margin-top:2px}
+.av[aria-checked="true"] .av-txt{color:var(--rojo)}
+
+.btn{
+  display:block;width:100%;margin-top:18px;cursor:pointer;
+  font-size:16.5px;font-weight:700;color:#fff;
+  padding:14px 18px;border:none;border-radius:999px;
+  background:linear-gradient(120deg,var(--rojo),#E3721F);
+  box-shadow:0 10px 22px rgba(214,40,40,.26);transition:transform .2s,box-shadow .2s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 26px rgba(214,40,40,.3)}
+.btn:disabled{opacity:.55;cursor:default;transform:none}
+.modo{
+  text-align:center;font-size:12.5px;color:var(--tinta-2);
+  margin:14px 0 0;opacity:.85;line-height:1.45;
+}
+
+/* ---------- La sala ---------- */
+#sala{
+  height:100%;display:grid;
+  grid-template-rows:auto 1fr auto auto;
+  max-width:640px;margin:0 auto;
+}
+
+.barra{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;background:rgba(255,255,255,.86);
+  backdrop-filter:blur(8px);border-bottom:2px solid #FFE3C8;
+}
+.quien{display:flex;align-items:center;gap:9px;min-width:0}
+.mini{width:40px;height:40px;flex:0 0 40px;border-radius:50%;background:#FFF1E4;overflow:hidden;display:grid;place-items:center}
+.mini svg{width:40px;height:40px}
+.quien-txt{display:flex;flex-direction:column;min-width:0}
+.quien-txt strong{font-size:15px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.quien-txt span{font-size:12px;color:var(--tinta-2)}
+
+.conectados{margin-left:auto;display:flex;align-items:center;gap:6px}
+.punto{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:12px;font-weight:600;color:var(--verde);
+  background:#EDF6E9;border-radius:999px;padding:5px 10px;white-space:nowrap;
+}
+.punto i{width:8px;height:8px;border-radius:50%;background:var(--verde);animation:pulso 1.8s ease-in-out infinite}
+.punto.sola{color:var(--tinta-2);background:#F4EDE4}
+.punto.sola i{background:#C4B2A0;animation:none}
+@keyframes pulso{0%,100%{opacity:1}50%{opacity:.35}}
+
+.salir{
+  border:2px solid #FFD9C8;background:#fff;color:var(--tinta-2);
+  font-size:12.5px;font-weight:600;border-radius:999px;padding:7px 12px;cursor:pointer;
+}
+.salir:hover{border-color:var(--rojo);color:var(--rojo)}
+
+/* ---------- Mensajes ---------- */
+#mensajes{
+  overflow-y:auto;padding:16px 14px 6px;
+  display:flex;flex-direction:column;gap:9px;
+  -webkit-overflow-scrolling:touch;
+}
+.msg{max-width:78%;display:flex;flex-direction:column;animation:entra .28s ease both}
+.msg.mio{align-self:flex-end;align-items:flex-end}
+.msg.suyo{align-self:flex-start;align-items:flex-start}
+.burbuja{
+  padding:10px 14px;border-radius:20px;font-size:15.5px;line-height:1.42;
+  word-wrap:break-word;overflow-wrap:anywhere;white-space:pre-wrap;
+  box-shadow:0 6px 16px rgba(122,82,48,.1);
+}
+.mio .burbuja{background:linear-gradient(120deg,var(--rojo),#E3721F);color:#fff;border-bottom-right-radius:7px}
+.suyo .burbuja{background:#fff;border:2px solid #FFE3C8;border-bottom-left-radius:7px}
+.meta{font-size:11px;color:var(--tinta-2);margin:3px 6px 0;opacity:.8}
+.solo-emoji .burbuja{font-size:40px;line-height:1.1;background:none!important;border:none;box-shadow:none;padding:2px 6px}
+.mio.solo-emoji .burbuja{color:inherit}
+
+.sistema{
+  align-self:center;max-width:90%;text-align:center;
+  font-size:12.5px;color:var(--tinta-2);
+  background:#FFF1E4;border-radius:999px;padding:6px 14px;
+  animation:entra .28s ease both;
+}
+@keyframes entra{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.escribiendo{
+  min-height:20px;padding:0 20px 2px;
+  font-size:12.5px;color:var(--tinta-2);font-style:italic;
+}
+
+/* ---------- Caja de escritura ---------- */
+#forma-msg{
+  padding:8px 12px calc(12px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.86);backdrop-filter:blur(8px);
+  border-top:2px solid #FFE3C8;
+}
+.emojis{display:flex;gap:6px;margin:0 2px 8px}
+.emojis button{
+  border:2px solid #FFE3C8;background:#FFFDFA;border-radius:999px;
+  font-size:17px;line-height:1;padding:5px 9px;cursor:pointer;transition:transform .15s,border-color .15s;
+}
+.emojis button:hover{transform:translateY(-2px);border-color:var(--sol)}
+.fila{display:flex;gap:8px;align-items:flex-end}
+#campo-msg{
+  flex:1;font:inherit;font-size:16px;color:var(--tinta);
+  padding:12px 16px;border:2px solid #FFE3C8;border-radius:22px;background:#FFFDFA;
+  outline:none;transition:border-color .2s;
+}
+#campo-msg:focus{border-color:var(--sol)}
+.enviar{
+  flex:0 0 46px;width:46px;height:46px;border:none;border-radius:50%;cursor:pointer;
+  color:#fff;font-size:17px;
+  background:linear-gradient(120deg,var(--rojo),#E3721F);
+  box-shadow:0 8px 18px rgba(214,40,40,.26);transition:transform .2s;
+}
+.enviar:hover{transform:scale(1.06)}
+.enviar:disabled{opacity:.5;cursor:default;transform:none}
+
+@media (min-width:660px){
+  #sala{height:100%;border-left:2px solid #FFE3C8;border-right:2px solid #FFE3C8;background:rgba(255,255,255,.35)}
+}
