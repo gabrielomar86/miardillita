@@ -196,6 +196,95 @@
   }
 
   /* ==========================================================
+     Avisos: toast dentro de la página + notificación del sistema
+     ========================================================== */
+  const horaDe = (t) => {
+    const h = new Date(t || Date.now());
+    return String(h.getHours()).padStart(2, '0') + ':' + String(h.getMinutes()).padStart(2, '0');
+  };
+
+  const avisos = {
+    activas: false,
+    audio: null,
+
+    /* El navegador solo pregunta si el permiso lo pide un clic. */
+    async pedir() {
+      if (!('Notification' in window)) return false;
+      if (Notification.permission === 'granted') return true;
+      if (Notification.permission === 'denied') return false;
+      try { return (await Notification.requestPermission()) === 'granted'; }
+      catch (e) { return false; }
+    },
+
+    guardar(v) { try { localStorage.setItem('chat-avisos', v ? '1' : '0'); } catch (e) {} },
+    recordado() { try { return localStorage.getItem('chat-avisos') === '1'; } catch (e) { return false; } },
+
+    /* Un pip corto, para cuando no está mirando la pantalla. */
+    pip() {
+      if (!this.activas) return;
+      try {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return;
+        this.audio = this.audio || new Ctx();
+        const o = this.audio.createOscillator(), g = this.audio.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(880, this.audio.currentTime);
+        o.frequency.exponentialRampToValueAtTime(1320, this.audio.currentTime + .12);
+        g.gain.setValueAtTime(.0001, this.audio.currentTime);
+        g.gain.exponentialRampToValueAtTime(.16, this.audio.currentTime + .02);
+        g.gain.exponentialRampToValueAtTime(.0001, this.audio.currentTime + .3);
+        o.connect(g); g.connect(this.audio.destination);
+        o.start(); o.stop(this.audio.currentTime + .32);
+      } catch (e) {}
+    },
+
+    /* La del sistema solo molesta si el chat no está a la vista. */
+    sistema(titulo, cuerpo) {
+      if (!this.activas || !('Notification' in window)) return;
+      if (Notification.permission !== 'granted') return;
+      if (!document.hidden) return;
+      try {
+        const n = new Notification(titulo, {
+          body: cuerpo,
+          tag: 'chat-ardillita',
+          icon: 'data:image/svg+xml,' + encodeURIComponent(
+            "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐿️</text></svg>"),
+        });
+        n.onclick = () => { window.focus(); n.close(); };
+        setTimeout(() => n.close(), 9000);
+      } catch (e) {}
+    },
+  };
+
+  function toast(clase, av, titulo, detalle) {
+    const caja = $('#avisos');
+    const t = document.createElement('div');
+    t.className = 'toast ' + clase;
+    t.innerHTML = '<div class="mini">' + cara(av) + '</div>'
+      + '<div class="toast-txt"><b></b><span></span></div>';
+    t.querySelector('b').textContent = titulo;
+    t.querySelector('span').textContent = detalle;
+    caja.appendChild(t);
+    setTimeout(() => {
+      t.classList.add('se-va');
+      setTimeout(() => t.remove(), 320);
+    }, 5200);
+  }
+
+  function avisarConexion(p, entro) {
+    const hora = horaDe();
+    const nombre = p.nombre || 'Alguien';
+    if (entro) {
+      toast('entra', p.av, nombre + ' se conectó', 'a las ' + hora + ' 🌻');
+      avisos.pip();
+      avisos.sistema(nombre + ' se conectó 🐿️', 'Entró al chat a las ' + hora);
+    } else {
+      toast('sale', p.av, nombre + ' se desconectó', 'a las ' + hora);
+      avisos.sistema(nombre + ' se desconectó', 'Salió del chat a las ' + hora);
+    }
+  }
+
+  /* ==========================================================
      Pantallas
      ========================================================== */
   function mostrar(cual) {
@@ -325,11 +414,17 @@
       if (!revisarCupo(lista)) return;
       pintarPresencia(lista);
     },
-    entra(p) { if (dentro) pintarSistema((p.nombre || 'Alguien') + ' se conectó 🌻'); },
+    entra(p) {
+      if (!dentro) return;
+      pintarSistema((p.nombre || 'Alguien') + ' se conectó a las ' + horaDe() + ' 🌻');
+      avisarConexion(p, true);
+    },
     sale(p)  {
       relojes.delete(p.nombre);
       pintarEscribiendo();
-      if (dentro) pintarSistema((p.nombre || 'Alguien') + ' se desconectó');
+      if (!dentro) return;
+      pintarSistema((p.nombre || 'Alguien') + ' se desconectó a las ' + horaDe());
+      avisarConexion(p, false);
     },
     mensaje(d) {
       if (!d || !d.texto) return;
@@ -350,6 +445,10 @@
     $('#mensajes').innerHTML = '';
     mostrar('#sala');
 
+    /* Si ya las había activado antes, se quedan activadas. */
+    if (avisos.recordado()) { await avisos.pedir(); ponerCampana(true); }
+    else ponerCampana(false);
+
     transporte = hayLlaves ? transporteSupabase(manejo) : transporteLocal(manejo);
 
     try {
@@ -367,6 +466,17 @@
       ? 'Modo prueba: abre esta misma página en otra pestaña para conversar contigo mismo.'
       : 'Listo. Lo que escriban aquí no se guarda en ninguna parte.');
     $('#campo-msg').focus();
+  }
+
+  function ponerCampana(activas) {
+    avisos.activas = activas;
+    avisos.guardar(activas);
+    const b = $('#btn-campana');
+    b.setAttribute('aria-pressed', String(activas));
+    b.textContent = activas ? '🔔' : '🔕';
+    b.title = activas
+      ? 'Te avisamos cuando alguien se conecte'
+      : 'Avisarme cuando alguien se conecte';
   }
 
   function prepararSala() {
@@ -396,6 +506,16 @@
       campo.value += b.dataset.e;
       campo.focus();
     }));
+
+    $('#btn-campana').addEventListener('click', async () => {
+      if (avisos.activas) { ponerCampana(false); return; }
+      const ok = await avisos.pedir();
+      ponerCampana(true);
+      avisos.pip();
+      if (!ok) {
+        pintarSistema('No hay permiso para notificaciones del sistema, pero igual verás el aviso aquí dentro.');
+      }
+    });
 
     $('#btn-salir').addEventListener('click', () => {
       if (transporte) transporte.salir();

@@ -14,6 +14,9 @@
 </head>
 <body>
 
+<!-- Avisos flotantes: quién se conecta y a qué hora -->
+<div id="avisos" aria-live="polite"></div>
+
 <!-- ====== Entrada: quién eres y en qué sala ====== -->
 <section id="entrada">
   <div class="tarjeta">
@@ -52,6 +55,8 @@
       </div>
     </div>
     <div class="conectados" id="conectados" aria-live="polite"></div>
+    <button type="button" id="btn-campana" class="campana" aria-pressed="false"
+            title="Avisarme cuando alguien se conecte">🔔</button>
     <button type="button" id="btn-salir" class="salir" title="Salir del chat">Salir</button>
   </header>
 
